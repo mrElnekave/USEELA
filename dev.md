@@ -13,6 +13,8 @@ npm init
 npm install express
 npm install -g nodemon # you might need to run this as sudo
 npm install dotenv
+npm install mongodb
+npm install mongoose
 ```
 
 
@@ -36,3 +38,6 @@ Use postman to send a request to http://localhost:{.env.PORT}/api/game_info/{fun
 Check out this tutorial: [here](https://www.youtube.com/watch?v=Ll6knx7sFis&list=PL4cUxeGkcC9iJ_KkrkBZWZRHVwnzLIoUE&index=4)
 
 
+
+## Tutorial position
+MongoDB not working yet: https://www.youtube.com/watch?v=s0anSjEeua8&list=PL4cUxeGkcC9iJ_KkrkBZWZRHVwnzLIoUE&index=4
