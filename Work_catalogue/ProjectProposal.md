@@ -21,6 +21,7 @@
    * Build and start the prof with Npm start
    * Roles
      * Yamm:
+       * Make the barebones of the app so that everyone can collaborate
        * Get a maps backend so that we can see everything
        * Store / fetch quizzes from mongodb
        * User profile and stats
