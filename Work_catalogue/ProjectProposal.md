@@ -1,3 +1,5 @@
+Discussion: 1C
+Names: Rakil Kim, Cixuan Zhang, Xiaohan Song, Yamm Elnekave, Neiro Cabrera
 ![](./Photos-001/image.png)
 * Description:
    * Basically, our app will allow UCLA students to guess different locations around campus and upload photos to the database. 
