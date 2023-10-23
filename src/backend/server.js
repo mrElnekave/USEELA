@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const mongoose = require('mongoose');
 const express = require('express');
 
 const app = express();
@@ -35,3 +36,11 @@ app.use('/api/game_info', gameRoutes);
 app.listen(process.env.PORT, () => {
     console.log('server is running on port', process.env.PORT); 
 });
+
+
+// connect to mongodb
+mongoose.connect(process.env.MONGO_URI)
+    .then((result) => {
+        console.log('connected to db');
+    })
+    .catch((err) => console.log(err));
