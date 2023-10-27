@@ -25,6 +25,9 @@ function Home(){
     return (
         <div className="home">
             <h1>Home</h1>
+            <p>Welcome to the barebones beta of the app, 
+                it has functionality for backend to talk to frontend so we can all 
+                individually work on our project peices.</p>
             <div className="Games">
                 {games && games.map((game) => (
                     <div className="game" key={game._id}>
