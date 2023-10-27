@@ -13,7 +13,7 @@ const quizSchema = new Schema({
         required: true
     },
     images: {
-        type: Array[Array[Object]],
+        type: Array,
         required: true
     },
     description: {
@@ -26,5 +26,13 @@ const quizSchema = new Schema({
     },
 }, {timestamps: true});
 
+/* Sample quiz json
+{
+    "name": "Test Quiz",
+    "images": ["FAKE IMAGE 1", "FAKE IMAGE 2"],
+    "description": "This is a test quiz",
+    "actual_locations": ["FAKE LOCATION 1", "FAKE LOCATION 2"]
+}
+*/
 
 module.exports = mongoose.model('Quiz', quizSchema);
