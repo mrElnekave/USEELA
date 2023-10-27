@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 
 const gameRoutes = require('./routes/game_info');
+const dummyRoutes = require('./routes/dummy');
 
 // express.json() is a middleware that parses json data
 app.use(express.json());
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/game_info', gameRoutes);
+app.use('/api/dummy', dummyRoutes);
 
 
 app.listen(process.env.PORT, () => {
@@ -39,8 +41,10 @@ app.listen(process.env.PORT, () => {
 
 
 // connect to mongodb
-mongoose.connect(process.env.MONGO_URI)
-    .then((result) => {
-        console.log('connected to db');
-    })
-    .catch((err) => console.log(err));
+if (process.env.BACKEND_PERSON == "true") {
+    mongoose.connect(process.env.MONGO_URI)
+        .then((result) => {
+            console.log('connected to db');
+        })
+        .catch((err) => console.log(err));
+}
