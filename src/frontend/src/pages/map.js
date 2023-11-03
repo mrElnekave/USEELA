@@ -11,7 +11,6 @@ import {
   function Map() {
       const { isLoaded } = useJsApiLoader({
           id:"google-maps-script",
-          googleMapsApiKey: process.env.REACT_GOOGLE_MAP_KEY,
           libraries: ['places'],
       })
       if (!isLoaded) {
