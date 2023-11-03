@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Navbar from '../components/Navbar'
 
 function Home(){
     const [games, setGames] = useState(null);
@@ -24,6 +25,7 @@ function Home(){
 
     return (
         <div className="home">
+            <Navbar></Navbar>
             <h1>Home</h1>
             <p>Welcome to the barebones beta of the app, 
                 it has functionality for backend to talk to frontend so we can all 
