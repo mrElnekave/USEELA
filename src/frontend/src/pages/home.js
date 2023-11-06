@@ -5,7 +5,7 @@ function Home(){
 
     useEffect(() => {
         const fetchGames = async () => {
-            const res = await fetch('/api/dummy'); 
+            const res = await fetch('/api/game_info/'); 
             
             if (res.ok) {
                 const data = [];

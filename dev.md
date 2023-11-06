@@ -37,6 +37,12 @@ From src/backend folder:
 npm run dev
 ```
 
+Or from the proj folder:
+
+```bash
+./back.sh
+```
+
 
 ### Simulating a client
 
@@ -70,6 +76,11 @@ nmcli device show | grep IP4.ADDRESS
 npm start
 ```
 
+Or from the proj folder:
+
+```bash
+./front.sh
+```
 
 
 
