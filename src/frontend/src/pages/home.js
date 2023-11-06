@@ -5,15 +5,12 @@ function Home(){
 
     useEffect(() => {
         const fetchGames = async () => {
-            const res = await fetch('/api/game_info/'); 
-            
+            const res = await fetch('/api/game_info/653b3e2d51156be6c9f90a37'); 
             if (res.ok) {
                 const data = [];
                 data.push(
                     await res.json()
-                );   
-                console.log("data: " + data); 
-                console.log("name: " + data.name)
+                );
                 setGames(data);
             }
             
@@ -33,6 +30,9 @@ function Home(){
                     <div className="game" key={game._id}>
                         <h2>{game.name}</h2>
                         <p>{game.description}</p>
+                        <p>psst... these are some locations</p>
+                        <p>{game.actual_locations[0]}</p>
+                        <p>{game.actual_locations[1]}</p>
                     </div>
                 ))}
             </div>
