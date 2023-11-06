@@ -30,6 +30,7 @@ const getGame = async (req, res) => {
 
     if (game) {
         res.status(200).json(game);
+        return;
     }
 
     res.status(404).json({mssg: 'Game with id ' + id + ' not found'});
@@ -85,9 +86,8 @@ const patchGame = async (req, res) => {
         res.status(404).json({mssg: 'Invalid id'});
         return;
     }
-
-    const quiz = await Quiz.findByIdAndUpdate(id, {
-        ... req.body,
+    const quiz = await Quiz.findOneAndUpdate({_id: id}, {
+        ...req.body,
     });
 
     if (!quiz) {
@@ -95,7 +95,7 @@ const patchGame = async (req, res) => {
         return;
     }
 
-    res.status(200);
+    res.status(200).json(quiz);
 };
 
 module.exports = {
