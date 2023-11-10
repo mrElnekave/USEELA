@@ -7,8 +7,10 @@ export default function Navbar() {
             <Link to="/">
                 <h1>Quiz</h1>
             </Link>
-        </div>
-        
+            <Link to="/dummy">
+                <h1>Dummy</h1>
+            </Link>
+        </div> 
     );
 }
 
