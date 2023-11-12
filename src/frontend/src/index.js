@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import Map from './pages/map';
 import Home from './pages/home';
+import GamePage from './pages/game';
 
 import {
   createBrowserRouter,
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home/>,
+  },
+  {
+    path: "/game",
+    element: <GamePage/>,
   },
 ]);
 

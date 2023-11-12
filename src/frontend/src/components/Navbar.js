@@ -14,6 +14,9 @@ export default function Navbar() {
                 <li>
                     <Link to="/map"><h1>Map</h1></Link>
                 </li>
+                <li>
+                    <Link to="/game"><h1>Game</h1></Link>
+                </li>
             </ul>
         </div>
         
