@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/home';
 import Dummy from './pages/dummy';
 import Navbar from './components/Navbar';
-
+import ImageUpload from './pages/ImageUpload';
 import './App.css';
 
 function App() {
@@ -18,6 +18,9 @@ function App() {
           </Route>
           <Route path='/dummy' element={<Dummy />}>
 
+          </Route>
+          <Route path='/ImageUpload' element={<ImageUpload />}>
+        
           </Route>
         </Routes>
         

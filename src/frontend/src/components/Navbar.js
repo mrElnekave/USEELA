@@ -10,6 +10,9 @@ export default function Navbar() {
             <Link to="/dummy">
                 <h1>Dummy</h1>
             </Link>
+            <Link to="/ImageUpload">
+                <h1>Upload</h1>
+            </Link>
         </div> 
     );
 }
