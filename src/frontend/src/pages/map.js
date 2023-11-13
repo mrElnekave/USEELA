@@ -53,12 +53,13 @@ import {
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={center}
-                zoom={5}
+                zoom={15}
                 onClick={handleMapClick}
             >
                 <Marker
                     position={markerPosition}
-                    draggable={false}
+                    draggable={true}
+                    onDragEnd={handleMapClick}
                 />
             </GoogleMap>
           </div>

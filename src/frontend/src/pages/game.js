@@ -4,13 +4,14 @@ import Map from '../pages/map';
 import { Button } from 'rsuite';
 import Navbar from '../components/Navbar'
 
-function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+function getDistanceFromLatLonInM(lat1, lon1, lat2, lon2) {
     var R = 6371;
     var dLat = deg2rad(lat2 - lat1);
     var dLon = deg2rad(lon2 - lon1);
     var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon /2)* Math.sin(dLon / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R*c;
+    d = d * 1000
     return Promise.resolve(d);
 }
 
@@ -22,8 +23,8 @@ export default function GamePage() {
     const [rounds, setRounds] = useState(5); // default number of rounds is 5
     //const [test, setTest] = useState(2);
     const [currentRound, setCurrentRound] = useState(1);
-    const [latGuessed, setLatGuessed] = useState(0);
-    const [lonGuessed, setLonGuessed] = useState(0);
+    const [latGuessed, setLatGuessed] = useState(34.068920);
+    const [lonGuessed, setLonGuessed] = useState(-118.445183);
     const [gameImages, setGameImages] = useState([]); // an array with image paths
     const [gameAnswers, setGameAnswers] = useState([]);
     const [score, setScore] = useState(0); 
@@ -33,7 +34,7 @@ export default function GamePage() {
     const handleStartGame = () => {
         setGameImages(["testPics/pic1.jpeg","testPics/pic2.jpeg","testPics/pic3.jpeg","testPics/pic4.jpeg","testPics/pic5.jpeg"]);
         setGameAnswers([
-            {lat:45.464664, lon:9.188540},
+            {lat: 34.068920, lon: -118.445183},
             {lat:34.018116, lon:-6.835709},
             {lat:33.738045, lon:73.084488},
             {lat:-23.742489, lon:-65.491692},
@@ -45,7 +46,7 @@ export default function GamePage() {
         setLatGuessed(latLng.lat);
         setLonGuessed(latLng.lng);
         const roundData = gameAnswers[currentRound - 1];
-        getDistanceFromLatLonInKm(
+        getDistanceFromLatLonInM(
             latLng.lat, latLng.lng, 
             roundData.lat, roundData.lon
         ).then((res) => {
@@ -71,6 +72,7 @@ export default function GamePage() {
                 points = 1;
             }
             setScore(score + points);
+
         });
 
         if (currentRound < rounds) {
@@ -98,8 +100,8 @@ export default function GamePage() {
                             <p>Round {currentRound} of {rounds}</p>
                             <img src={gameImages[currentRound - 1]} alt="Guess Location" />
                             <Map newlatlng={handleNewLatLng}/>
-                            <p>当前分数: {score}</p>
-                            <Button onClick={() => handleGuess({ lat: latGuessed, lng: lonGuessed })}>Next Round</Button>
+                            <p>Current Score: {score}</p>
+                            <Button onClick={() => handleGuess({ lat: latGuessed, lng: lonGuessed })}>Guess and goto next round</Button>
                         </>
                     )}
                 </>
