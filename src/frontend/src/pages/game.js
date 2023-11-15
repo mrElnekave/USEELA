@@ -11,7 +11,7 @@ function getDistanceFromLatLonInM(lat1, lon1, lat2, lon2) {
     var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon /2)* Math.sin(dLon / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R*c;
-    d = d * 1000
+    d = d * 1000;
     return Promise.resolve(d);
 }
 
@@ -34,7 +34,7 @@ export default function GamePage() {
     const handleStartGame = () => {
         setGameImages(["testPics/pic1.jpeg","testPics/pic2.jpeg","testPics/pic3.jpeg","testPics/pic4.jpeg","testPics/pic5.jpeg"]);
         setGameAnswers([
-            {lat: 34.068920, lon: -118.445183},
+            {lat: 45.464664, lon: 9.188540},
             {lat:34.018116, lon:-6.835709},
             {lat:33.738045, lon:73.084488},
             {lat:-23.742489, lon:-65.491692},
