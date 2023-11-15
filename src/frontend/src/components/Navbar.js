@@ -17,9 +17,11 @@ export default function Navbar() {
                 <li>
                     <Link to="/game"><h1>Game</h1></Link>
                 </li>
+                <li>
+                    <Link to="/dummy"><h1>Dummy</h1></Link>
+                </li>
             </ul>
         </div>
-        
     );
 }
 

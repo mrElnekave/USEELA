@@ -1,0 +1,1 @@
+cd src/backend/ ; npm run dev
