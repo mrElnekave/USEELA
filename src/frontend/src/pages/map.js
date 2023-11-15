@@ -55,6 +55,7 @@ import {
                 center={center}
                 zoom={15}
                 onClick={handleMapClick}
+                options={{streetViewControl: false}}
             >
                 <Marker
                     position={markerPosition}
