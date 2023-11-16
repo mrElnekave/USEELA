@@ -6,7 +6,7 @@ Contains all the controllers for backend requests
 const mongoose = require('mongoose');
 const ImageSchema = require('../models/Image');
 const Quiz = require('../models/Quiz');
-// const Lookup = require('../models/Lookup');
+const Lookup = require('../models/Lookup');
 
 
 // Get all possible games
@@ -108,12 +108,21 @@ const postImage = async (req, res) => {
     const { game_id, image_ref } = req.params;
     
     const {image_bin} = req.body; // destructuring, body should have all of these
-    console.log(image_bin);
+    console.log(req.body);
+    console.log(image_bin)
 
     try {
+        // check if that name already exists
         const name = game_id + '_' + image_ref;
-        const Image = await ImageSchema.create({name, image_bin}) // async
-        res.status(200).json({mssg: 'done', id: Image._id}); // status 200 is the status code for succeded
+
+        const Imagecopy = await ImageSchema.findOne({name: name});
+        if (Imagecopy) {
+            res.status(400).json({mssg: 'Image with name ' + name + ' already exists'});
+            return;
+        }
+
+        const Image = await ImageSchema.create({name, image_bin}); // async
+        res.status(200).json({mssg: 'done', id: Image._id, bin:image_bin}); // status 200 is the status code for succeded
     } catch (err) {
         console.log(err);
         res.status(400).json({mssg: 'Failed to create new game'});
