@@ -10,6 +10,7 @@ const app = express();
 const gameRoutes = require('./routes/game_info');
 const dummyRoutes = require('./routes/dummy');
 
+
 const Quiz = require('./models/Quiz'); // 
 
 
@@ -60,8 +61,6 @@ app.post('/upload', upload.array('photos'), async (req, res) => {
             const GpsData = extractGPSData(exifData);
             actual_locations.push(GpsData);
             console.log(GpsData);
-
-       
             imageBuffers.push(file.buffer);
         }
 
@@ -84,7 +83,6 @@ app.post('/upload', upload.array('photos'), async (req, res) => {
 app.listen(process.env.PORT, () => {
     console.log('Server is running on port', process.env.PORT);
 });
-
 
 if (process.env.BACKEND_PERSON == "true") {
     mongoose.connect(process.env.MONGO_URI)
