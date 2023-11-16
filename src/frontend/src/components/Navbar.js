@@ -30,6 +30,7 @@ export default function Navbar() {
                     <Link to="/dummy"><h1>Dummy</h1></Link>
                 </li>
             </ul>
+        </div>    
     );
 }
 
