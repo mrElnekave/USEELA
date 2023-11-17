@@ -5,7 +5,7 @@ Contains all the controllers for backend requests
 
 const mongoose = require('mongoose');
 const Quiz = require('../models/Quiz');
-
+const ExifReader = require('exifreader');
 
 // Get all possible games
 
@@ -64,6 +64,7 @@ const createGame = async (req, res) => {
             }
 
             const GpsData = extractGPSData(exifData);
+            console.log(GpsData)
             actual_locations.push(GpsData);
             console.log(GpsData);
             imageBuffers.push(file.buffer);

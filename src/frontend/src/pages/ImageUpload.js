@@ -21,9 +21,9 @@ function ImageUpload() {
     });
     formData.append('name', quizName);
     formData.append('description', quizDescription);
-
+    console.log(formData)
     try {
-      const response = await fetch('/api/game_info', {
+      const response = await fetch('/api/game_info/', {
         method: 'POST',
         body: formData,
       });
