@@ -39,28 +39,6 @@ app.use('/api/game_info', gameRoutes);
 app.use('/api/image', imageRoutes);
 app.use('/api/dummy', dummyRoutes);
 
-            const GpsData = extractGPSData(exifData);
-            actual_locations.push(GpsData);
-            console.log(GpsData);
-            imageBuffers.push(file.buffer);
-        }
-
-        const newQuiz = new Quiz({
-            name: name,
-            description: description,
-            images: imageBuffers, 
-            actual_locations: actual_locations
-        });
-
-        await newQuiz.save();
-        res.status(200).json({ message: "Quiz uploaded successfully", quiz: newQuiz });
-    } catch (error) {
-        console.error("Error uploading quiz:", error);
-        res.status(500).json({ error: "Internal Server Error" });
-    }
-});
-
-
 
 app.listen(process.env.PORT, () => {
     console.log('server is running on port', process.env.PORT); 
