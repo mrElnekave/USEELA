@@ -5,6 +5,7 @@ import App from './App';
 import Map from './pages/map';
 import Home from './pages/home';
 import GamePage from './pages/game';
+import ImageUpload from './pages/ImageUpload';
 
 import {
   createBrowserRouter,
@@ -29,10 +30,13 @@ const router = createBrowserRouter([
     path: "/game",
     element: <GamePage/>,
   },
+  {
+    path: "/ImageUpload",
+    element: <ImageUpload/>,
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <RouterProvider router={router} />
 );
-
