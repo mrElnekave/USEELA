@@ -2,8 +2,6 @@ require('dotenv').config();
 
 const mongoose = require('mongoose');
 const express = require('express');
-const multer = require('multer');
-const ExifReader = require('exifreader');
 
 const app = express();
 
@@ -14,51 +12,32 @@ const imageRoutes = require('./routes/image');
 
 const Quiz = require('./models/Quiz'); // 
 
-
-const upload = multer({ storage: multer.memoryStorage() });
-
+// express.json() is a middleware that parses json data
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
+// middleware, this will run before any get request
 app.use((req, res, next) => {
     console.log(req.path, req.method);
     next();
-});
+})
 
+// request is what we get from the client
+// response is what we send to the client
 app.get('/', (req, res) => {
-    res.json({ mssg: 'Hello World' });
-});
+    res.json({mssg: 'Hello World'});
+
+    // figure out if signed in and send to
+    // /login
+
+
+    // or /game/GAMEID
+
+
+})
 
 app.use('/api/game_info', gameRoutes);
 app.use('/api/image', imageRoutes);
 app.use('/api/dummy', dummyRoutes);
-
-
-function extractGPSData(exifData) {
-    if (!exifData) return null;
-
-    const latitude = exifData.GPSLatitude ? exifData.GPSLatitude.description : null;
-    const longitude = exifData.GPSLongitude ? exifData.GPSLongitude.description : null;
-    const altitude = exifData.GPSAltitude ? exifData.GPSAltitude.description : null;
-
-    return { latitude, longitude, altitude };
-}
-
-
-app.post('/upload', upload.array('photos'), async (req, res) => {
-    try {
-        console.log(req.files);
-        const { name, description } = req.body;
-        const actual_locations = [];
-        const imageBuffers = [];
-
-        for (const file of req.files) {
-            let exifData;
-            try {
-                exifData = ExifReader.load(file.buffer);
-            } catch (error) {
-                console.error('Error extracting EXIF data:', error);
-            }
 
             const GpsData = extractGPSData(exifData);
             actual_locations.push(GpsData);
@@ -82,12 +61,16 @@ app.post('/upload', upload.array('photos'), async (req, res) => {
 });
 
 
+
 app.listen(process.env.PORT, () => {
-    console.log('Server is running on port', process.env.PORT);
+    console.log('server is running on port', process.env.PORT); 
 });
 
+// connect to mongodb
 if (process.env.BACKEND_PERSON == "true") {
     mongoose.connect(process.env.MONGO_URI)
-        .then(() => console.log('Connected to MongoDB'))
+        .then((result) => {
+            console.log('connected to db');
+        })
         .catch((err) => console.log(err));
 }
