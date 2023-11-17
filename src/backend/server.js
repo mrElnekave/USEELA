@@ -9,6 +9,7 @@ const app = express();
 
 const gameRoutes = require('./routes/game_info');
 const dummyRoutes = require('./routes/dummy');
+const imageRoutes = require('./routes/image');
 
 
 const Quiz = require('./models/Quiz'); // 
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/game_info', gameRoutes);
+app.use('/api/image', imageRoutes);
 app.use('/api/dummy', dummyRoutes);
 
 
