@@ -89,18 +89,40 @@ const patchGame = async (req, res) => {
 // Post new game
 
 const createGame = async (req, res) => {
-
-    const {name, images, description, actual_locations} = req.body; // destructuring, body should have all of these
-
     try {
-        const quiz = await Quiz.create({name, images, description, actual_locations}); // async
-        res.status(200); // status 200 is the status code for succeded
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({mssg: 'Failed to create new game'});
-    }
+        console.log(req.files);
+        const { name, description } = req.body;
+        const actual_locations = [];
+        const imageBuffers = [];
 
+        for (const file of req.files) {
+            let exifData;
+            try {
+                exifData = ExifReader.load(file.buffer);
+            } catch (error) {
+                console.error('Error extracting EXIF data:', error);
+            }
+
+            const GpsData = extractGPSData(exifData);
+            actual_locations.push(GpsData);
+            console.log(GpsData);
+            imageBuffers.push(file.buffer);
+        }
+
+        const newQuiz = await Quiz.create({
+            name,
+            description,
+            images: imageBuffers, 
+            actual_locations
+        });
+
+        res.status(200).json({ message: "Quiz created successfully", quiz: newQuiz });
+    } catch (error) {
+        console.error("Error creating quiz:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 };
+
 
 // Post image with gameid and name
 

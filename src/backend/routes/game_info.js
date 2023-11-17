@@ -1,16 +1,16 @@
-const { createGame, deleteGame, getGame, getGames, patchGame } = require('../controllers/controller');
 const express = require('express');
+const multer = require('multer');
+const { createGame, deleteGame, getGame, getGames, patchGame } = require('../controllers/controller');
 
-// router is a mini express app
 const router = express.Router();
-
+const upload = multer({ storage: multer.memoryStorage() });
 
 router.get('/', getGames);
 
 
 router.get('/:id', getGame);
 
-router.post('/', createGame);
+router.post('/', upload.array('photos'), createGame);
 
 router.delete('/:id', deleteGame);
 
