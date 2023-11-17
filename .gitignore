@@ -134,14 +134,15 @@ dist
 # custom
 *.private
 
-./backend/package-lock.json
-./backend/node_modules
-./backend/package.json
+backend/package-lock.json
+backend/node_modules
+backend/package.json
 
-./frontend/node_modules
-./frontend/package-lock.json
-./frontend/package.json
+frontend/node_modules
+frontend/package-lock.json
+frontend/package.json
 
-./package-lock.json
-./node_modules
-./package.json
+package-lock.json
+node_modules
+package.json
+
