@@ -14,6 +14,8 @@ npm install -g nodemon # you might need to run this as sudo
 npm install dotenv
 npm install mongodb
 npm install mongoose
+npm install exifreader --save 
+npm install multer
 ```
 
 *In the src/frontend folder*
