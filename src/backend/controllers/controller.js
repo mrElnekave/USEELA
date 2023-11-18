@@ -12,6 +12,60 @@ const sharp = require('sharp');
 const heicConvert = require('heic-convert');
 const path = require('path');
 
+// Function to get an image
+const getImage = async (req, res) => {
+    try {
+        const imageId = req.params.id;
+        const image = await Image.findById(imageId);
+
+        if (!image) {
+            return res.status(404).send('Image not found');
+        }
+        res.set('Content-Type', 'image/jpeg');
+        res.send(image.imagebin);
+    } catch (error) {
+        res.status(500).send('Error retrieving image');
+    }
+};
+
+
+async function postImage(file) {
+    try {
+        const ext = path.extname(file.originalname).toLowerCase();
+        let buffer;
+        if (ext === '.heic') {
+            // heic-convert
+            try {
+                buffer = await heicConvert({
+                    buffer: file.buffer,
+                    format: 'JPEG',
+                });
+            } catch (error) {
+                console.error('Error converting HEIC to JPEG:', error);
+            }
+        } else {
+            // sharp for others
+            try {
+                buffer = await sharp(file.buffer)
+                    .jpeg()
+                    .toBuffer();
+            } catch (error) {
+                console.error('Error converting image to JPEG:', error);
+            }
+        }
+        const image = new Image({
+            name: file.originalname,
+            imagebin: buffer,
+        });
+        await image.save();
+
+        return { id: image._id};
+    } catch (error) {
+        console.error('Error in postImage:', error);
+        throw error; 
+    }
+}
+
 // Get all possible games
 
 const getGames = async (req, res) => {
@@ -60,47 +114,17 @@ const createGame = async (req, res) => {
         const imageIds = [];
 
         for (const file of req.files) {
-            const ext = path.extname(file.originalname).toLowerCase();
-            let buffer;
-    
-            if (ext === '.heic') {
-                // heic-convert
-                try {
-                    buffer = await heicConvert({
-                        buffer: file.buffer,
-                        format: 'JPEG',
-                    });
-                } catch (error) {
-                    console.error('Error converting HEIC to JPEG:', error);
-                    continue;
-                }
-            } else {
-                // sharp for others
-                try {
-                    buffer = await sharp(file.buffer)
-                        .jpeg()
-                        .toBuffer();
-                } catch (error) {
-                    console.error('Error converting image to JPEG:', error);
-                    continue;
-                }
-            }
-    
-    
-            // extract EXIF data
             let exifData;
             try {
-                exifData = ExifReader.load(buffer);
+                exifData = ExifReader.load(file.buffer);
             } catch (error) {
                 console.error('Error extracting EXIF data:', error);
             }
-    
             const GpsData = extractGPSData(exifData);
             actual_locations.push(GpsData);
-    
-            const image = new Image({ name: file.originalname, imagebin: buffer });
-            await image.save();
-            imageIds.push(image._id);
+            // 然后处理图片
+            const imageData = await postImage(file);
+            imageIds.push(imageData.id); // 确保这里使用正确的属性
         }
     
 
@@ -174,6 +198,7 @@ const patchGame = async (req, res) => {
 };
 
 module.exports = {
+    getImage,
     createGame,
     deleteGame,
     getGame,

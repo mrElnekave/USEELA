@@ -78,11 +78,12 @@ function ImageUpload() {
         </form>
         <div>
         {uploadedImages.map((image, index) => (
-          <img key={index} src={image.url} alt={`Uploaded ${index}`} />
+          <img key={index} src={`/api/images/${image.id}`} alt={`Uploaded ${index}`}/>
         ))}
       </div>
     </div>
   );
 }
+// img key={index} src={image.url} alt={`Uploaded ${index}`} 
 
 export default ImageUpload;
