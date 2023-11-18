@@ -9,7 +9,7 @@ const imageSchema = new Schema({
         required: true
     },
     imagebin: {
-        type: Array,
+        type: Buffer,
         required: true
     },
 }, {timestamps: true});

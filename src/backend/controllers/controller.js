@@ -6,6 +6,11 @@ Contains all the controllers for backend requests
 const mongoose = require('mongoose');
 const Quiz = require('../models/Quiz');
 const ExifReader = require('exifreader');
+const Image = require('../models/Image');
+const Lookup = require('../models/Lookup');
+const sharp = require('sharp');
+const heicConvert = require('heic-convert');
+const path = require('path');
 
 // Get all possible games
 
@@ -50,34 +55,72 @@ function extractGPSData(exifData) {
 // Post new game
 const createGame = async (req, res) => {
     try {
-        console.log(req.files);
         const { name, description } = req.body;
         const actual_locations = [];
-        const imageBuffers = [];
+        const imageIds = [];
 
         for (const file of req.files) {
+            const ext = path.extname(file.originalname).toLowerCase();
+            let buffer;
+    
+            if (ext === '.heic') {
+                // heic-convert
+                try {
+                    buffer = await heicConvert({
+                        buffer: file.buffer,
+                        format: 'JPEG',
+                    });
+                } catch (error) {
+                    console.error('Error converting HEIC to JPEG:', error);
+                    continue;
+                }
+            } else {
+                // sharp for others
+                try {
+                    buffer = await sharp(file.buffer)
+                        .jpeg()
+                        .toBuffer();
+                } catch (error) {
+                    console.error('Error converting image to JPEG:', error);
+                    continue;
+                }
+            }
+    
+    
+            // extract EXIF data
             let exifData;
             try {
-                exifData = ExifReader.load(file.buffer);
+                exifData = ExifReader.load(buffer);
             } catch (error) {
                 console.error('Error extracting EXIF data:', error);
             }
-
+    
             const GpsData = extractGPSData(exifData);
-            console.log(GpsData)
             actual_locations.push(GpsData);
-            console.log(GpsData);
-            imageBuffers.push(file.buffer);
+    
+            const image = new Image({ name: file.originalname, imagebin: buffer });
+            await image.save();
+            imageIds.push(image._id);
         }
+    
 
-        const newQuiz = await Quiz.create({
+        const lookup = new Lookup({ imageIds });
+        await lookup.save();
+
+        const newQuiz = new Quiz({
             name,
             description,
-            images: imageBuffers, 
-            actual_locations
+            actual_locations,
+            lookupId: lookup._id
+        });
+        await newQuiz.save();
+
+        const imagesInfo = imageIds.map(id => {
+            const imageUrl = `http://localhost:3000/api/images/${id}`; // URL for local environment
+            return { id, url: imageUrl };
         });
 
-        res.status(200).json({ message: "Quiz created successfully", quiz: newQuiz });
+        res.status(200).json({ message: "Quiz created successfully", quiz: newQuiz, images: imagesInfo });
     } catch (error) {
         console.error("Error creating quiz:", error);
         res.status(500).json({ error: "Internal Server Error" });

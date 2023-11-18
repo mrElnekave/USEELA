@@ -2,7 +2,8 @@ require('dotenv').config();
 
 const mongoose = require('mongoose');
 const express = require('express');
-
+const Image = require('./models/Image'); 
+const path = require('path'); // 
 
 const app = express();
 
@@ -23,6 +24,22 @@ app.get('/', (req, res) => {
 
 app.use('/api/game_info', gameRoutes);
 app.use('/api/dummy', dummyRoutes);
+
+// get pictures
+app.get('/api/images/:id', async (req, res) => {
+    try {
+        const image = await Image.findById(req.params.id);
+        if (!image) {
+            return res.status(404).send('Image not found');
+        }
+
+        // default Content-Type as 'image/jpeg'
+        res.set('Content-Type', 'image/jpeg');
+        res.send(image.imagebin);
+    } catch (error) {
+        res.status(500).send('Error retrieving image');
+    }
+});
 
 app.listen(process.env.PORT, () => {
     console.log('Server is running on port', process.env.PORT);

@@ -16,6 +16,8 @@ npm install mongodb
 npm install mongoose
 npm install exifreader --save 
 npm install multer
+npm install sharp # convert pictures to .jpeg
+npm install heic-convert # extra converter for .heic
 ```
 
 *In the src/frontend folder*
