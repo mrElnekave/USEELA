@@ -122,9 +122,8 @@ const createGame = async (req, res) => {
             }
             const GpsData = extractGPSData(exifData);
             actual_locations.push(GpsData);
-            // 然后处理图片
             const imageData = await postImage(file);
-            imageIds.push(imageData.id); // 确保这里使用正确的属性
+            imageIds.push(imageData.id);
         }
     
 
