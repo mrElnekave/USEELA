@@ -31,7 +31,6 @@ function ImageUpload() {
       const data = await response.json();
       console.log('File uploaded successfully:', data);
 
-      // 更新状态，存储从服务器返回的图片信息
       if (data.images) {
         setUploadedImages(data.images);
       }
