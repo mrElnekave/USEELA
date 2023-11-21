@@ -13,11 +13,11 @@ function App() {
         <h1>Main Page</h1>
       </div> */}
 
-      <Routes>
+      {/* <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/dummy' element={<Dummy />} />
         <Route path='/ImageUpload' element={<ImageUpload />} />
-      </Routes>
+    </Routes> */}
     </>
   );
 }

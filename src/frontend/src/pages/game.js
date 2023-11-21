@@ -2,6 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import Map from '../pages/map';
 import { Button } from 'rsuite';
+import { Link } from 'react-router-dom'
+import '../index.css';
 import Navbar from '../components/Navbar'
 
 function getDistanceFromLatLonInM(lat1, lon1, lat2, lon2) {
@@ -105,8 +107,11 @@ export default function GamePage() {
                         </>
                     )}
                 </>
-            ) : (
+            ) : ( 
+                <div>
                 <p>End of game! Your final score is: {score}</p>
+                <button><Link to="/"><h1>Return to lobby</h1></Link></button>
+                </div>
             )}
         </div>
     );

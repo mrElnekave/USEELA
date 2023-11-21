@@ -20,8 +20,12 @@ const Lobby = () => {
   const navigateToImageUpload = () => {
     navigate('/imageUpload');
   };
+  const navigateRandomGame = () => {
+    navigate('/game');
+  };
 
   return (
+    <div>
     <div style={styles.lobby}>
       <h1>Welcome to the Quiz Lobby</h1>
       <button onClick={navigateToLookForQuiz} style={styles.button}>
@@ -36,6 +40,12 @@ const Lobby = () => {
       <button onClick={navigateToImageUpload} style={styles.button}>
         Upload Quiz Image
       </button>
+    </div>
+    <div style={styles.lobby}>
+    <button onClick={navigateRandomGame} style={styles.button}>
+        Play any quiz
+      </button>
+    </div>
     </div>
   );
 };

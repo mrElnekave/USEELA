@@ -20,7 +20,7 @@ import {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <Lobby/>,
   },
   {
     path: "/map",
@@ -34,10 +34,10 @@ const router = createBrowserRouter([
     path: "/game",
     element: <GamePage/>,
   },
-  {
+  {/*
     path: "/lobby",
     element: <Lobby/>,
-  },
+*/},
   {
     path: "/lookForQuiz",
     element: <LookForQuiz/>,
