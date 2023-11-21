@@ -5,6 +5,7 @@ import App from './App';
 import Map from './pages/map';
 import Home from './pages/home';
 import GamePage from './pages/game';
+import Lobby from './pages/lobby';
 
 import {
   createBrowserRouter,
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
     path: "/game",
     element: <GamePage/>,
   },
+  {
+    path: "/lobby",
+    element: <Lobby/>,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
