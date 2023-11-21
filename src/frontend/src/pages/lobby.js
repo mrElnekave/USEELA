@@ -10,15 +10,32 @@ const Lobby = () => {
     navigate('/lookForQuiz');
   };
 
+  const navigateToProfile = () => {
+    navigate('/profile');
+  };
+
+  const navigateToLeaderboard = () => {
+    navigate('/leaderboard');
+  };
+  const navigateToImageUpload = () => {
+    navigate('/imageUpload');
+  };
+
   return (
     <div style={styles.lobby}>
       <h1>Welcome to the Quiz Lobby</h1>
       <button onClick={navigateToLookForQuiz} style={styles.button}>
         Search Quizzes
       </button>
-      <Link to="/profile" style={styles.button}>View Profile</Link>
-      <Link to="/leaderboard" style={styles.button}>Leaderboard</Link>
-      <Link to="/imageUpload" style={styles.button}>Upload Quiz Image</Link>
+      <button onClick={navigateToProfile} style={styles.button}>
+        View Profile
+      </button>
+      <button onClick={navigateToLeaderboard} style={styles.button}>
+        Leaderboard
+      </button>
+      <button onClick={navigateToImageUpload} style={styles.button}>
+        Upload Quiz Image
+      </button>
     </div>
   );
 };

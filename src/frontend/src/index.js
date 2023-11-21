@@ -7,6 +7,9 @@ import Home from './pages/home';
 import GamePage from './pages/game';
 import Lobby from './pages/lobby';
 import LookForQuiz from './pages/lookForQuiz';
+import Profile from './pages/profile';
+import Leaderboard from './pages/leaderboard';
+import ImageUpload from './pages/ImageUpload';
 
 import {
   createBrowserRouter,
@@ -38,6 +41,18 @@ const router = createBrowserRouter([
   {
     path: "/lookForQuiz",
     element: <LookForQuiz/>,
+  },
+  {
+    path: "/profile",
+    element: <Profile/>,
+  },
+  {
+    path: "/leaderboard",
+    element: <Leaderboard/>,
+  },
+  {
+    path: "/imageUpload",
+    element: <ImageUpload/>,
   },
 ]);
 
