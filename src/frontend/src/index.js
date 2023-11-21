@@ -6,6 +6,7 @@ import Map from './pages/map';
 import Home from './pages/home';
 import GamePage from './pages/game';
 import Lobby from './pages/lobby';
+import LookForQuiz from './pages/lookForQuiz';
 
 import {
   createBrowserRouter,
@@ -33,7 +34,11 @@ const router = createBrowserRouter([
   {
     path: "/lobby",
     element: <Lobby/>,
-  }
+  },
+  {
+    path: "/lookForQuiz",
+    element: <LookForQuiz/>,
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
