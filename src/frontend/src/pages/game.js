@@ -110,7 +110,7 @@ export default function GamePage() {
             ) : ( 
                 <div>
                 <p>End of game! Your final score is: {score}</p>
-                <button><Link to="/"><h1>Return to lobby</h1></Link></button>
+                <Link to="/"><button>Return to lobby</button></Link>
                 </div>
             )}
         </div>
