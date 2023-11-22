@@ -1,7 +1,5 @@
 const { getImage} = require('../controllers/controller');
 const express = require('express');
-const multer = require('multer');
-const upload = multer({ storage: multer.memoryStorage() });
 
 // router is a mini express app
 const router = express.Router();
