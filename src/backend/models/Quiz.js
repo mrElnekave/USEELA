@@ -12,10 +12,6 @@ const quizSchema = new Schema({
         type: String,
         required: true
     },
-    images: {
-        type: Array,
-        required: true
-    },
     description: {
         type: String,
         required: true
@@ -24,8 +20,11 @@ const quizSchema = new Schema({
         type: Array,
         required: true
     },
+    lookupId: {
+        type: mongoose.Schema.Types.ObjectId, 
+        required: true
+    }
 }, {timestamps: true});
-
 /* Sample quiz json
 {
     "name": "Test Quiz",

@@ -1,7 +1,5 @@
 /*
-The lookup schema is used to store the names of the games and their ids.
-As well as the images and their ids.
-And Users and their ids.
+The lookup is a redirection for images so that we can store very simple things in the user.
 */
 
 const mongoose = require('mongoose');
@@ -9,18 +7,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const lookupSchema = new Schema({
-    imageMap: {
-        type: Map,
-        required: true
-    },
-    gameMap: {
-        type: Map,
-        required: true
-    },
-    userMap: {
-        type: Map,
-        required: true
-    }
+    
+    imageIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Image' }] 
 });
+
 
 module.exports = mongoose.model('Lookup', lookupSchema);

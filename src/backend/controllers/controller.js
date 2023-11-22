@@ -4,10 +4,67 @@ Contains all the controllers for backend requests
 */
 
 const mongoose = require('mongoose');
-const ImageSchema = require('../models/Image');
 const Quiz = require('../models/Quiz');
+const ExifReader = require('exifreader');
+const Image = require('../models/Image');
 const Lookup = require('../models/Lookup');
+const sharp = require('sharp');
+const heicConvert = require('heic-convert');
+const path = require('path');
 
+// Function to get an image
+const getImage = async (req, res) => {
+    try {
+        const imageId = req.params.id;
+        const image = await Image.findById(imageId);
+
+        if (!image) {
+            return res.status(404).send('Image not found');
+        }
+        res.set('Content-Type', 'image/jpeg');
+        res.send(image.imagebin);
+    } catch (error) {
+        res.status(500).send('Error retrieving image');
+    }
+};
+
+
+async function postImage(file) {
+    try {
+        const ext = path.extname(file.originalname).toLowerCase();
+        let buffer;
+        if (ext === '.heic') {
+            // heic-convert
+            try {
+                buffer = await heicConvert({
+                    buffer: file.buffer,
+                    format: 'JPEG',
+                });
+            } catch (error) {
+                console.error('Error converting HEIC to JPEG:', error);
+            }
+        } else {
+            // sharp for others
+            try {
+                buffer = await sharp(file.buffer)
+                    .jpeg()
+                    .toBuffer();
+            } catch (error) {
+                console.error('Error converting image to JPEG:', error);
+            }
+        }
+        const image = new Image({
+            name: file.originalname,
+            imagebin: buffer,
+        });
+        await image.save();
+
+        return { id: image._id};
+    } catch (error) {
+        console.error('Error in postImage:', error);
+        throw error; 
+    }
+}
 
 // Get all possible games
 
@@ -28,8 +85,7 @@ const getGame = async (req, res) => {
         return;
     }
 
-    // lookup for gameID_name in database
-    const game = await ImageSchema.findById("65542151d931ec55df6ed1e7");
+    const game = await Quiz.findById(id);
 
     if (game) {
         res.status(200).json(game);
@@ -39,6 +95,61 @@ const getGame = async (req, res) => {
     res.status(404).json({mssg: 'Game with id ' + id + ' not found'});
 
 };
+
+function extractGPSData(exifData) {
+    if (!exifData) return null;
+
+    const latitude = exifData.GPSLatitude ? exifData.GPSLatitude.description : null;
+    const longitude = exifData.GPSLongitude ? exifData.GPSLongitude.description : null;
+    const altitude = exifData.GPSAltitude ? exifData.GPSAltitude.description : null;
+
+    return { latitude, longitude, altitude };
+}
+
+// Post new game
+const createGame = async (req, res) => {
+    try {
+        const { name, description } = req.body;
+        const actual_locations = [];
+        const imageIds = [];
+
+        for (const file of req.files) {
+            let exifData;
+            try {
+                exifData = ExifReader.load(file.buffer);
+            } catch (error) {
+                console.error('Error extracting EXIF data:', error);
+            }
+            const GpsData = extractGPSData(exifData);
+            actual_locations.push(GpsData);
+            const imageData = await postImage(file);
+            imageIds.push(imageData.id);
+        }
+    
+
+        const lookup = new Lookup({ imageIds });
+        await lookup.save();
+
+        const newQuiz = new Quiz({
+            name,
+            description,
+            actual_locations,
+            lookupId: lookup._id
+        });
+        await newQuiz.save();
+
+        const imagesInfo = imageIds.map(id => {
+            const imageUrl = `http://localhost:3000/api/images/${id}`; // URL for local environment
+            return { id, url: imageUrl };
+        });
+
+        res.status(200).json({ message: "Quiz created successfully", quiz: newQuiz, images: imagesInfo });
+    } catch (error) {
+        console.error("Error creating quiz:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 
 // Delete game with id
 
@@ -85,78 +196,12 @@ const patchGame = async (req, res) => {
     res.status(200).json(quiz);
 };
 
-
-// Post new game
-
-const createGame = async (req, res) => {
-
-    const {name, images, description, actual_locations} = req.body; // destructuring, body should have all of these
-
-    try {
-        const quiz = await Quiz.create({name, images, description, actual_locations}); // async
-        res.status(200); // status 200 is the status code for succeded
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({mssg: 'Failed to create new game'});
-    }
-
-};
-
-// Post image with gameid and name
-
-const postImage = async (req, res) => {
-    const { game_id, image_ref } = req.params;
-    
-    const {image_bin} = req.body; // destructuring, body should have all of these
-    console.log(req.body);
-    console.log(image_bin)
-
-    try {
-        // check if that name already exists
-        const name = game_id + '_' + image_ref;
-
-        const Imagecopy = await ImageSchema.findOne({name: name});
-        if (Imagecopy) {
-            res.status(400).json({mssg: 'Image with name ' + name + ' already exists'});
-            return;
-        }
-
-        const Image = await ImageSchema.create({name, image_bin}); // async
-        res.status(200).json({mssg: 'done', id: Image._id, bin:image_bin}); // status 200 is the status code for succeded
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({mssg: 'Failed to create new game'});
-    }
-};
-
-// Get image with id and name
-
-const getImage = async (req, res) => {
-    const { game_id, image_ref } = req.params;
-
-    // if (!mongoose.Types.ObjectId.isValid(game_id)) {
-    //     res.status(404).json({mssg: 'Invalid id'});
-    //     return;
-    // }
-
-    image_name = game_id + '_' + image_ref;
-    
-    const Image = await ImageSchema.findOne({name: image_name});
-
-    if (Image) {
-        res.status(200).json(Image);
-        return;
-    }
-
-    res.status(404).json({mssg: 'Game with id ' + id + ' not found'});
-};
-
 module.exports = {
+    getImage,
     createGame,
     deleteGame,
     getGame,
     getGames,
     patchGame, 
-    postImage,
-    getImage
+
 };
