@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import '../index.css';
 
 
 const Lobby = () => {
@@ -28,7 +29,7 @@ const Lobby = () => {
     <div>
     <div style={styles.lobby}>
       <h1>Welcome to the Quiz Lobby</h1>
-      <button onClick={navigateToLookForQuiz} style={styles.button}>
+      <button onClick={navigateToLookForQuiz}>
         Search Quizzes
       </button>
       <button onClick={navigateToProfile} style={styles.button}>
@@ -52,6 +53,7 @@ const Lobby = () => {
 
 const styles = {
   lobby: {
+    font: 'Impact',
     textAlign: 'center',
     padding: '20px',
   },
@@ -59,7 +61,7 @@ const styles = {
     display: 'inline-block',
     margin: '10px',
     padding: '10px 20px',
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#2774AE',
     color: 'white',
     textDecoration: 'none',
     borderRadius: '5px',

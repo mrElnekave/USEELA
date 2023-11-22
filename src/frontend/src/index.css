@@ -20,16 +20,35 @@ input {
   appearance: none;
 	border: none;
 	outline: none;
-	border-bottom: .2em solid #4CAF50;
-	background: rgba(76, 175, 80, 0.2);
+	border-bottom: .2em solid #2774AE;
+	background: rgba(39, 116, 174, 0.2);
 	border-radius: .2em .2em 0 0;
 	padding: .4em;
 	color: white;
 }
 button {
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: 'white';
-  border: 'none';
-  border-radius: '5px';
+  display: inline-block;
+  outline: 0;
+  appearance: none;
+  padding: 0px 12px;
+  border: 0px solid transparent;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #2774AE;
+  box-shadow: rgb(19 170 82 / 40%) 0px 2px 3px;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  font-weight: 400;
+  height: 36px;
+  transition: all 150ms ease-in-out 0s;
+  :hover {
+      color: rgb(255, 255, 255);
+      background-color: rgb(17, 97, 73);
+      box-shadow: rgb(19 170 82 / 40%) 0px 2px 3px, rgb(195 231 202) 0px 0px 0px 3px;
+  }
+
+}
+div {
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
