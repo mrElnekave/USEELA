@@ -35,12 +35,16 @@ export default function GamePage() {
 
     const handleStartGame = () => {
         setGameImages(["testPics/pic1.jpeg","testPics/pic2.jpeg","testPics/pic3.jpeg","testPics/pic4.jpeg","testPics/pic5.jpeg"]);
+        // TODO: need image links in URL form
+
         setGameAnswers([
             {lat: 45.464664, lon: 9.188540},
             {lat:34.018116, lon:-6.835709},
             {lat:33.738045, lon:73.084488},
             {lat:-23.742489, lon:-65.491692},
             {lat:-21.178986, lon:-175.198242}
+
+            // TODO: need answers in (latitude, longitude) form from backend 
         ]);
     };
 

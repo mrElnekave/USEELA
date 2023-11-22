@@ -4,7 +4,8 @@ const LookForQuiz = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
-    // Add search functionality here
+    // Here's the function to tell backend the name to search and fetch names from backend
+    // TODO: We need to know the backend function we should call
     console.log(`Searching for ${searchTerm}`);
   };
 
