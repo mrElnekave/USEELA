@@ -10,7 +10,7 @@ import LookForQuiz from './pages/lookForQuiz';
 import Profile from './pages/profile';
 import Leaderboard from './pages/leaderboard';
 import ImageUpload from './pages/ImageUpload';
-
+import QuizTest from './pages/QuizTest';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -55,6 +55,10 @@ const router = createBrowserRouter([
 
     element: <ImageUpload/>,
   },
+  {
+    path: "/QuizTest",
+    element: <QuizTest/>,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
