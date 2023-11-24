@@ -77,9 +77,6 @@ const getGames = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
-
-
-
 // Get game with id
 
 const getGame = async (req, res) => {
@@ -105,36 +102,15 @@ const getGame = async (req, res) => {
 
         const images = await Image.find({ '_id': { $in: lookup.imageIds } });
         const imagesInfo = images.map(image => {
-            return { id: image._id, url: `http://localhost:3000/api/images/${image._id}` }; //local
+            return { id: image._id, url: `http://localhost:3000/api/images/${image._id}` };
         });
 
         res.status(200).json({
-            game_id: game._id,
             name: game.name,
             description: game.description,
             gpsData: game.actual_locations,
             images: imagesInfo
         });
-    } catch (error) {
-        res.status(500).json({ error: "Internal Server Error" });
-    }
-};
-
-
-const randomGame = async (req, res) => {
-    try {
-        const gameCount = await Quiz.countDocuments();
-        const randomIndex = Math.floor(Math.random() * gameCount);
-        const randomGame = await Quiz.findOne().skip(randomIndex);
-
-        if (!randomGame) {
-            res.status(404).json({ message: 'No game found' });
-            return;
-        }
-
-        // Directly calling getGame function with the random game id
-        req.params.id = randomGame._id;
-        await getGame(req, res);
     } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });
     }
@@ -195,6 +171,24 @@ const createGame = async (req, res) => {
     }
 };
 
+const randomGame = async (req, res) => {
+    try {
+        const gameCount = await Quiz.countDocuments();
+        const randomIndex = Math.floor(Math.random() * gameCount);
+        const randomGame = await Quiz.findOne().skip(randomIndex);
+
+        if (!randomGame) {
+            res.status(404).json({ message: 'No game found' });
+            return;
+        }
+
+        // Directly calling getGame function with the random game id
+        req.params.id = randomGame._id;
+        await getGame(req, res);
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
 
 // Delete game with id
 

@@ -22,7 +22,7 @@ function QuizTest() {
 
     const fetchRandomGame = async () => {
         // Call to randomGame API
-        // 假设 randomGame API 的 URL 是 '/api/game_info/random'
+        // suppose randomGame API's URL is '/api/game_info/random'
         const response = await fetch('/api/game_info/random');
         const data = await response.json();
         console.log(data)

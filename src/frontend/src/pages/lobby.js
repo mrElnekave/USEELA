@@ -24,6 +24,9 @@ const Lobby = () => {
   const navigateRandomGame = () => {
     navigate('/game');
   };
+  const navigateToQuizTest = () => {
+    navigate('/QuizTest');
+  };
 
   return (
     <div>
@@ -40,6 +43,9 @@ const Lobby = () => {
       </button>
       <button onClick={navigateToImageUpload} style={styles.button}>
         Upload Quiz Image
+      </button>
+      <button onClick={navigateToQuizTest} style={styles.button}>
+        QuizTest
       </button>
     </div>
     <div style={styles.lobby}>
