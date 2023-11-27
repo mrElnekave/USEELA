@@ -17,7 +17,7 @@ export default function Home() {
             backgroundSize: 'cover',
             minHeight: '500px',
             alignItems: 'center',
-            justifyContent: 'space-between', // 使标题居中
+            justifyContent: 'space-between', 
           }}
         >
           <Typography
