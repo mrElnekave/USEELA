@@ -34,7 +34,7 @@ export default function GamePage() {
     const [score, setScore] = useState(0); 
     const [gameOver, setGameOver] = useState(false);
     const [backgroundImageUrl, setBackgroundImageUrl] = useState('');
-    
+    const [resetTimer, setResetTimer] = useState(false);
 
     const handleStartGame = () => {
         setGameImages(["/testPics/pic1.jpeg","testPics/pic2.jpeg","testPics/pic3.jpeg","testPics/pic4.jpeg","testPics/pic5.jpeg"]);
@@ -49,7 +49,10 @@ export default function GamePage() {
 
             // TODO: need answers in (latitude, longitude) form from backend 
         ]);
+
+        setResetTimer(prev => !prev);
     };
+
 
     const handleGuess = (latLng) => {
         setLatGuessed(latLng.lat);
@@ -86,6 +89,7 @@ export default function GamePage() {
 
         if (currentRound < rounds) {
             setCurrentRound(currentRound + 1);
+            setResetTimer(prev=>!prev);
         } else {
             setGameOver(true);
         }
@@ -131,7 +135,7 @@ export default function GamePage() {
                             }}>
                                 <Typography variant="h5" sx={{ color: 'black' }}>Round {currentRound} of {rounds}</Typography>
                                 <Box sx={{ position: 'relative', mt: 3 }}>
-                                    <Timer onTimeUp={() => handleGuess({ lat: latGuessed, lng: lonGuessed })} />
+                                    <Timer onTimeUp={() => handleGuess({ lat: latGuessed, lng: lonGuessed })} resetSignal={resetTimer}/>
                                 </Box>
                             </Box>
 
