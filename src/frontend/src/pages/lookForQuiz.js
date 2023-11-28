@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField, Box } from '@mui/material';
+import { Button, TextField, Box, Container } from '@mui/material';
 import SearchResults from '../providers/SearchResults.js'
 
 const LookForQuiz = () => {
@@ -19,6 +19,13 @@ const LookForQuiz = () => {
   };
 
   return (
+    <Container sx={{
+      display: 'inline',
+    }}>
+    <Button variant="contained" sx=
+    {{ color: 'white', justifyContent: 'flex-start', fontSize: '1rem', width: 150, height: 50, mt: 1 }} 
+    onClick={() => { window.location.href = '/lobby'; }}>Return to Lobby</Button>
+
     <Box sx={{
       display: 'flex',
       flexDirection: 'column',
@@ -27,7 +34,6 @@ const LookForQuiz = () => {
     <Box sx={{
       display: 'flex',
       justifyContent: 'center',
-      marginTop: 8,
       marginBottom: 2,
     }}>
       <TextField
@@ -45,6 +51,7 @@ const LookForQuiz = () => {
     </Box>
     <SearchResults results={names}/>
     </Box>
+    </Container>
   );
 };
 
