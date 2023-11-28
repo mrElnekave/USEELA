@@ -22,9 +22,7 @@ const LookForQuiz = () => {
     <Container sx={{
       display: 'inline',
     }}>
-    <Button variant="contained" sx=
-    {{ color: 'white', justifyContent: 'flex-start', fontSize: '1rem', width: 150, height: 50, mt: 1 }} 
-    onClick={() => { window.location.href = '/lobby'; }}>Return to Lobby</Button>
+    <button onClick={() => { window.location.href = '/lobby'; }}>U See LA</button>
 
     <Box sx={{
       display: 'flex',
