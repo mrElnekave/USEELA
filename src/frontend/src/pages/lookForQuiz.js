@@ -53,8 +53,6 @@ const LookForQuiz = () => {
 
 
   const handleSearch = () => {
-    // Here's the function to tell backend the name to search and fetch names from backend
-    // TODO: We need to know the backend function we should call
     console.log(`Searching for ${searchTerm}`);
     console.log(games[0]);
     searchQuizByName(searchTerm, games[0]);
@@ -75,7 +73,7 @@ const LookForQuiz = () => {
         {searchResults.map((game) => { // link to the quiz page with that id and the name
           return (
             <div>
-              <a href={`/quiz/${game.id}`}>{game.name}</a> <br/>
+              <a href={`/QuizDisplay/${game.id}`}>{game.name}</a> <br/>
             </div>
           );
         })}
