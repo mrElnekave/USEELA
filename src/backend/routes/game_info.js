@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const { createGame, deleteGame, getGame, getGames, patchGame, randomGame } = require('../controllers/controller');
+const { createGame, deleteGame, getGame, getGames, patchGame, randomGame, getGameNames } = require('../controllers/controller');
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -8,6 +8,8 @@ const upload = multer({ storage: multer.memoryStorage() });
 router.get('/', getGames); // return all quiz objects
 
 router.get('/random', randomGame); // return randam quiz
+
+router.get('/getGameNames', getGameNames);
 
 router.get('/:id', getGame); // return selected quiz
 
