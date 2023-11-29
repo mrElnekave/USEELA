@@ -160,8 +160,8 @@ export default function GamePage() {
                     {gameImages.length === 0 && (
                         <Box className="countdown-container">
                             {countdown == 1
-                                ? <Typography variant="h4" className="countdown-text">Go!</Typography>
-                                : <Typography variant="h4" className="countdown-text">{countdown-1}</Typography>
+                                ? <Typography variant="h1" className="countdown-text">Go!</Typography>
+                                : <Typography variant="h1" className="countdown-text">{countdown-1}</Typography>
                             }
                         </Box>
                     )}
