@@ -26,6 +26,9 @@ export default function Navbar() {
                 <li>
                     <Link to="/lobby"><h1>Lobby</h1></Link>
                 </li>
+                <li>
+                    <Link to="/QuizTest"><h1>QuizTest</h1></Link>
+                </li>
             </ul>
         </div>
     );
