@@ -11,6 +11,7 @@ import Profile from './pages/profile';
 import Leaderboard from './pages/leaderboard';
 import ImageUpload from './pages/ImageUpload';
 import QuizTest from './pages/QuizTest';
+import QuizDisplay from './pages/QuizDisplay';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -61,7 +62,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/QuizDisplay/:quizId",
-    element: <QuizTest/>,
+    element: <QuizDisplay/>,
   },
   {
     path: "/QuizTest/",
