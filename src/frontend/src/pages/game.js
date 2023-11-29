@@ -24,17 +24,36 @@ function deg2rad(deg){
 }
 
 export default function GamePage() {
+    const fetchGame = async () => {
+        // Call to getGame API
+        const response = await fetch(`/api/game_info/${gameId}`);
+        const data = await response.json();
+        console.log(data)
+        setGameData(data);
+    };
+
+    const fetchRandomGame = async () => {
+        // Call to randomGame API
+        // suppose randomGame API's URL is '/api/game_info/random'
+        const response = await fetch('/api/game_info/random');
+        const data = await response.json();
+        console.log(data)
+     //   console.log(data.)
+        setGameData(data);
+    };
+
     // TODO: CHANGE HAVE THE PAGE TAKE A RANDOM OR THE GAMEID
     const gameId = (useParams().gameId);
-    if (gameId) {
-        // make get request to get game
+    if (gameId) { 
         console.log("gameId: " + gameId);
+        fetchGame();
     }else{
         // make get a random game
         console.log("no gameId");
+        fetchRandomGame();
     }
 
-    const [rounds, setRounds] = useState(5); // default number of rounds is 5
+    const [rounds, setRounds] = useState(0); // default number of rounds is 5
     //const [test, setTest] = useState(2);
     const [currentRound, setCurrentRound] = useState(1);
     const [latGuessed, setLatGuessed] = useState(34.068920);
@@ -45,20 +64,37 @@ export default function GamePage() {
     const [gameOver, setGameOver] = useState(false);
     const [backgroundImageUrl, setBackgroundImageUrl] = useState('');
     const [resetTimer, setResetTimer] = useState(false);
+    const [gameData, setGameData] = useState(null);
+    const [countdown, setCountdown] = useState(4);
+    const [showGo, setShowGo] = useState(false);
+
+    useEffect(()=>{
+        let timer;
+        if (countdown > 0){
+            timer = setTimeout(()=> setCountdown(countdown-1), 1000);
+        }else if (countdown === 0 && !showGo){
+            setShowGo(true);
+            timer = setTimeout(() => {
+                //handleStartGame();
+                setShowGo(false);
+            }, 1000);
+        }
+        return ()=> clearTimeout(timer);
+    }, [countdown, showGo]);
+    
+    useEffect(()=>{
+        if (countdown === 0 && !showGo){
+            handleStartGame();
+        }
+    },[countdown, showGo]);
 
     const handleStartGame = () => {
-        setGameImages(["/testPics/pic1.jpeg","testPics/pic2.jpeg","testPics/pic3.jpeg","testPics/pic4.jpeg","testPics/pic5.jpeg"]);
-        // TODO: need image links in URL form
+        const Image = gameData.images.map(image => image.url);
+        setGameImages(Image);
 
-        setGameAnswers([
-            {lat: 45.464664, lon: 9.188540},
-            {lat:34.018116, lon:-6.835709},
-            {lat:33.738045, lon:73.084488},
-            {lat:-23.742489, lon:-65.491692},
-            {lat:-21.178986, lon:-175.198242}
+        setGameAnswers(gameData.gpsData.map(gps=>({lat: gps.latitude || 34.068920, lon: gps.longtitude || -118.445183})));
 
-            // TODO: need answers in (latitude, longitude) form from backend 
-        ]);
+        setRounds(Image.length);
 
         setResetTimer(prev => !prev);
     };
@@ -122,10 +158,12 @@ export default function GamePage() {
             {!gameOver ? (
                 <>
                     {gameImages.length === 0 && (
-                        <>
-                            <input type="number" value={rounds} onChange={e=>setRounds(e.target.value)} />
-                            <Button onClick={handleStartGame}>Start</Button>
-                        </>
+                        <Box className="countdown-container">
+                            {countdown == 1
+                                ? <Typography variant="h4" className="countdown-text">Go!</Typography>
+                                : <Typography variant="h4" className="countdown-text">{countdown-1}</Typography>
+                            }
+                        </Box>
                     )}
                     
                     {gameImages.length > 0 && (
