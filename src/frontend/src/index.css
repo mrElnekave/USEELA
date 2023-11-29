@@ -11,3 +11,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.container {
+  text-align: 'center';
+  padding: 20px;
+}
+input {
+  appearance: none;
+	border: none;
+	outline: none;
+	border-bottom: .2em solid #2774AE;
+	background: rgba(39, 116, 174, 0.2);
+	border-radius: .2em .2em 0 0;
+	padding: .4em;
+	color: white;
+}
+button {
+  display: inline-block;
+  outline: 0;
+  appearance: none;
+  padding: 3px 3px;
+  border: 0px solid transparent;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  font-weight: 400;
+  height: 36px;
+  background-color: transparent;
+  color: #2774AE;
+  font-family: montserrat;
+  font-size: 30;
+
+}
+div {
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}

@@ -5,8 +5,13 @@ import App from './App';
 import Map from './pages/map';
 import Home from './pages/home';
 import GamePage from './pages/game';
+import Lobby from './pages/lobby';
+import LookForQuiz from './pages/lookForQuiz';
+import Profile from './pages/profile';
+import Leaderboard from './pages/leaderboard';
 import ImageUpload from './pages/ImageUpload';
-
+import QuizTest from './pages/QuizTest';
+import QuizDisplay from './pages/QuizDisplay';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -16,7 +21,11 @@ import {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <Home/>,
+  },
+  {
+    path: "/lobby",
+    element: <Lobby/>,
   },
   {
     path: "/map",
@@ -31,9 +40,38 @@ const router = createBrowserRouter([
     element: <GamePage/>,
   },
   {
-    path: "/ImageUpload",
+    path: "/game/:gameId",
+    element: <GamePage/>,
+  },
+  {/*
+    path: "/lobby",
+    element: <Lobby/>,
+*/},
+  {
+    path: "/lookForQuiz",
+    element: <LookForQuiz/>,
+  },
+  {
+    path: "/profile",
+    element: <Profile/>,
+  },
+  {
+    path: "/leaderboard",
+    element: <Leaderboard/>,
+  },
+  {
+    path: "/imageUpload",
+
     element: <ImageUpload/>,
   },
+  {
+    path: "/QuizDisplay/:quizId",
+    element: <QuizDisplay/>,
+  },
+  {
+    path: "/QuizTest/",
+    element: <QuizTest/>,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

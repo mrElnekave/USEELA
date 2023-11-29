@@ -34,5 +34,5 @@ app.listen(process.env.PORT, () => {
 if (process.env.BACKEND_PERSON == "true") {
     mongoose.connect(process.env.MONGO_URI)
         .then(() => console.log('Connected to MongoDB'))
-        .catch((err) => console.log(err));
+        .catch((err) => console.log("ERROREED ON CONNECT", err));
 }

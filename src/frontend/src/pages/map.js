@@ -31,25 +31,9 @@ import {
         newlatlng(latLng.lat, latLng.lng);
       };
 
-    //   const onLoad = (marker) => {
-    //       console.log(marker.getPosition().lat())
-    //       console.log(marker.getPosition().lng())
-  
-    //   }
-    //   const dragged = (marker) => {
-    //       console.log(marker.latLng.lat())
-    //       console.log(marker.latLng.lng())
-    //   }
       
       return (
           <div className="map">
-            {/* <Navbar></Navbar> */}
-            {/* <GoogleMap center={center} zoom={5} mapContainerStyle={containerStyle} onClick={handleMapClick}>
-                <MarkerF onLoad={onLoad} position={{
-                    lat: center.lat,
-                    lng: center.lng,
-                }} draggable={true} onDragEnd={dragged}></MarkerF>
-            </GoogleMap> */}
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={center}
