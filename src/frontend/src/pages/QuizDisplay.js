@@ -19,15 +19,21 @@ function QuizTest() {
 
     fetchGame();
 
+    const handleClick = () => {
+        window.location.href = `/game/${gameId}`;
+    };
+
     return (
         <div>
             {gameData && (
             <div>
-                <h3>{gameData.name}</h3>
-                <p>{gameData.description}</p>
-            </div> // TODO: add play game button
-            
-        )}
+                <div>
+                    <h3>{gameData.name}</h3>
+                    <p>{gameData.description}</p>
+                </div>
+                <button onClick={handleClick}>Play Game</button>
+            </div>
+            )}
         </div>
     );
 }

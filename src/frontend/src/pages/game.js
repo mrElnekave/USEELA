@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import Map from '../pages/map';
 import { Button } from 'rsuite';
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import '../index.css';
 import {Box, Fab, Typography} from '@mui/material';
 import Timer from '../components/timer';
@@ -24,6 +24,16 @@ function deg2rad(deg){
 }
 
 export default function GamePage() {
+    // TODO: CHANGE HAVE THE PAGE TAKE A RANDOM OR THE GAMEID
+    const gameId = (useParams().gameId);
+    if (gameId) {
+        // make get request to get game
+        console.log("gameId: " + gameId);
+    }else{
+        // make get a random game
+        console.log("no gameId");
+    }
+
     const [rounds, setRounds] = useState(5); // default number of rounds is 5
     //const [test, setTest] = useState(2);
     const [currentRound, setCurrentRound] = useState(1);
