@@ -60,7 +60,11 @@ const router = createBrowserRouter([
     element: <ImageUpload/>,
   },
   {
-    path: "/QuizTest",
+    path: "/QuizDisplay/:quizId",
+    element: <QuizTest/>,
+  },
+  {
+    path: "/QuizTest/",
     element: <QuizTest/>,
   }
 ]);
