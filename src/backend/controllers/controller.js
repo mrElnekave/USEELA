@@ -92,6 +92,7 @@ const getGameNames = async (req, res) => {
         });
         res.status(200).json(gameNames);
     } catch (error) {
+        console.error("Error getting game names:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
