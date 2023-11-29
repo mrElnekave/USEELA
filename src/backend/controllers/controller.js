@@ -8,9 +8,13 @@ const Quiz = require('../models/Quiz');
 const ExifReader = require('exifreader');
 const Image = require('../models/Image');
 const Lookup = require('../models/Lookup');
+
+// --- image processing
 const sharp = require('sharp');
 const heicConvert = require('heic-convert');
 const path = require('path');
+// image processing ---
+
 
 // Function to get an image
 const getImage = async (req, res) => {
@@ -77,13 +81,28 @@ const getGames = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
+// Get game names with id for lookup
+
+const getGameNames = async (req, res) => {
+    try {
+        const games = await Quiz.find().sort({ createdAt: -1 }); // descending order
+        const gameNames = games.map(game => {
+            return { id: game._id, name: game.name };
+        });
+        res.status(200).json(gameNames);
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 // Get game with id
 
 const getGame = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(404).json({ message: 'Invalid id' });
+        res.status(404).json({ message: 'Invalid id getgame' });
         return;
     }
 
@@ -196,7 +215,7 @@ const deleteGame = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(404).json({mssg: 'Invalid id'});
+        res.status(404).json({mssg: 'Invalid id deletegame'});
         return;
     }
 
@@ -220,7 +239,7 @@ const patchGame = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(404).json({mssg: 'Invalid id'});
+        res.status(404).json({mssg: 'Invalid id patchgame'});
         return;
     }
     const quiz = await Quiz.findOneAndUpdate({_id: id}, {
@@ -243,4 +262,5 @@ module.exports = {
     getGames,
     patchGame, 
     randomGame,
+    getGameNames,
 };
