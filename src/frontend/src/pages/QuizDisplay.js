@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Container, Typography, Button} from '@mui/material';
 import { useParams } from 'react-router-dom';
 
@@ -18,7 +18,9 @@ function QuizTest() {
         setGameData(data);
     };
 
-    fetchGame();
+    useEffect(()=>{
+        fetchGame();
+    }, [gameId]);
 
     const handleClick = () => {
         window.location.href = `/game/${gameId}`;

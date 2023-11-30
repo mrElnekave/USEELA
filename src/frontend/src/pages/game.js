@@ -42,17 +42,6 @@ export default function GamePage() {
         setGameData(data);
     };
 
-    // TODO: CHANGE HAVE THE PAGE TAKE A RANDOM OR THE GAMEID
-    const gameId = (useParams().gameId);
-    if (gameId) { 
-        console.log("gameId: " + gameId);
-        fetchGame();
-    }else{
-        // make get a random game
-        console.log("no gameId");
-        fetchRandomGame();
-    }
-
     const [rounds, setRounds] = useState(0); // default number of rounds is 5
     //const [test, setTest] = useState(2);
     const [currentRound, setCurrentRound] = useState(1);
@@ -67,6 +56,20 @@ export default function GamePage() {
     const [gameData, setGameData] = useState(null);
     const [countdown, setCountdown] = useState(4);
     const [showGo, setShowGo] = useState(false);
+
+
+    const gameId = (useParams().gameId);
+
+    useEffect(()=>{
+        if (gameId) { 
+            console.log("gameId: " + gameId);
+            fetchGame();
+        }else{
+            // make get a random game
+            console.log("no gameId");
+            fetchRandomGame();
+        }
+    }, [gameId]);
 
     useEffect(()=>{
         let timer;
