@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Box, Container, Card, CardActions, CardContent, Typography } from '@mui/material';
+import { Box, Container, Card, Typography } from '@mui/material';
 import image from '../pictures/bruin.png';
 
 const Profile = () => {
