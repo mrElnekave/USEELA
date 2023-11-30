@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Box, Container, Card, CardActions, CardContent, Typography, TextField, CardActionArea } from '@mui/material';
+import { Button, Box, Container, Card, CardContent, Typography, TextField, CardActionArea } from '@mui/material';
 
 const LookForQuiz = () => {
 
@@ -51,8 +51,7 @@ const LookForQuiz = () => {
     fetchGames();
   }, []); // empty array means only run once
 
-
-
+  
   const handleSearch = () => {
     console.log(`Searching for ${searchTerm}`);
     console.log(games[0]);
@@ -105,6 +104,7 @@ const LookForQuiz = () => {
               }}>
               <CardContent>
               <Typography gutterBottom variant='h6'>{game.name}</Typography>
+              <Typography gutterBottom variant='body1'>{game.description}</Typography>
               </CardContent>
               </CardActionArea>
             </Card>
