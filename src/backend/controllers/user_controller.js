@@ -3,7 +3,7 @@ const User = require('../models/User');
 
 //get all users
 const all_users = async (req, res) => {
-    const users = await User.find({}).sort({createdAt: -1});
+    const users = await User.find({}).sort({score: -1});
     res.status(200).json(users);
 }
 
@@ -44,11 +44,13 @@ const login_user = async (req, res) => {
         //console.log({check});
         if (check){
             console.log("User Authenticated");
-            return res.status(200).json("exist");
+            res.status(200).json(check);
+            //return res.status(200).json("exist");
         }
         else {
             console.log("User Not Authenticated");
-            return res.status(400).json("notexist");
+            res.status(400).json(check);
+            //return res.status(400).json("notexist");
         }
     }
     catch(error) {
