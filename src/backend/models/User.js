@@ -1,17 +1,26 @@
 const mongoose = require('mongoose');
-
 // MongoDB is schemaless, but mongoose allows us to use schemas
 const Schema = mongoose.Schema;
-
-const quizSchema = new Schema({
-    name: {
+//User Schema contains email, password, score, and quizzes made
+const userSchema = new Schema({
+   	email: {
         type: String,
-        required: true
+        required: true,
+		unique: true,
     },
-    quizzes: {
-        type: Array,
-        required: true
+    password: {
+        type: String,
+        required: true,
     },
-});
+	score: {
+		type: Number,
+		default: 0
+	},
+	quizzes: {
+		type: Array,
+		default: []
+	},
+}, { timestamps: true });
 
-module.exports = mongoose.model('Quiz', quizSchema);
+const User = mongoose.model('User', userSchema);
+module.exports = User;

@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom"
 import axios from "axios"
 
 function Login() {
-
 	// Check if cookies are enabled, auto go to home
 	// Display login, have option to sign up
 	const navigate = useNavigate()
@@ -43,10 +42,8 @@ function Login() {
 			<br />
 			<p>OR</p>
 			<br />
-			<Link to="/sign_up">Sign Up Here</Link>
+			<Link to="/SignUp">Sign Up Here</Link>
 		</div>
 	);
 }
-
-
 export default Login;

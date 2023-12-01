@@ -40,7 +40,7 @@ export default function SignUp() {
             <br />
             <p>OR</p>
             <br />
-            <Link to="/login">Login Here</Link> 
+            <Link to="/Login">Login Here</Link> 
         </div>
     );
 }
