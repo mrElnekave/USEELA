@@ -15,7 +15,7 @@ export default function SignUp() {
             const response = await axios.post("/api/user_info/signup/", {email, password})
 			console.log("Response: ", response.data);
             if (response){
-                navigate('/', {state:{id:email}})
+                navigate('/home', {state:{id:email}})
             }
         }
         catch(error){

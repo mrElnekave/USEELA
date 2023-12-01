@@ -9,7 +9,30 @@ const all_users = async (req, res) => {
 
 //get a single user
 const get_user = async (req, res) => {
-	res.status(404).json("Not implemented");
+    const { id } = req.params;
+    console.log(id);
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        res.status(404).json({ message: 'Invalid User ID' });
+        return;
+    }
+
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            res.status(404).json({ message: 'User Not Found' });
+            return;
+        }
+        res.status(200).json({
+            email: user.email,
+            password: user.password,
+            score: user.score,
+            quizzes: user.quizzes,
+        });
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+
 }
 
 //logs in a single user
