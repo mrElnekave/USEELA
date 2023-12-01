@@ -1,19 +1,10 @@
-import { Routes, Route } from 'react-router-dom';
-import Home from './pages/home';
-import Dummy from './pages/dummy';
-import Navbar from './components/Navbar';
-import ImageUpload from './pages/ImageUpload';
 
 import './App.css';
 
 function App() {
-  return (
 
-    <div className="App">
-      <Navbar></Navbar>
-      <h1>Main Page</h1>
-    </div>
-  );
+  // Immediately redirect to login page
+  window.location.href = '/login';
 }
 
 export default App;
