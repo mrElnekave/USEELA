@@ -15,7 +15,8 @@ export default function SignUp() {
             const response = await axios.post("/api/user_info/signup/", {email, password})
 			console.log("Response: ", response.data);
             if (response){
-                navigate('/home', {state:{id:email}})
+                //localStorage.setItem('userobj', JSON.stringify(userobj));   
+                navigate('/home');
             }
         }
         catch(error){

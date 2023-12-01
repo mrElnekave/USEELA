@@ -23,6 +23,7 @@ npm install heic-convert # extra converter for .heic
 *In the src/frontend folder*
 
 ```bash
+npm install axios
 npm install react-router-dom
 npm install react-dropzone
 npm install rsuite
