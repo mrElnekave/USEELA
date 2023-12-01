@@ -27,6 +27,8 @@ npm install react-router-dom
 npm install react-dropzone
 npm install rsuite
 npm install @react-google-maps/api
+npm install @mui/material
+npm install @emotion/styled
 ```
 
 

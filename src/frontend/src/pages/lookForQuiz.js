@@ -14,6 +14,7 @@ const LookForQuiz = () => {
     let results = [];
   
     // create a regular expression pattern for the search string
+    // gi = global case-insensitive
     const pattern = new RegExp(searchTerm, "gi");
   
     gameNames.forEach((game) => {
