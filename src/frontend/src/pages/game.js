@@ -56,7 +56,10 @@ export default function GamePage() {
     const [gameData, setGameData] = useState(null);
     const [countdown, setCountdown] = useState(4);
     const [showGo, setShowGo] = useState(false);
-
+    const [showAnswer, setShowAnswer] = useState(false);
+    const [answerPosition, setAnswerPosition] = useState(null);
+    const [isFullScreen, setIsFullScreen] = useState(false);
+    const [ddistance, setDistance] = useState(0);
 
     const gameId = (useParams().gameId);
 
@@ -95,7 +98,7 @@ export default function GamePage() {
         const Image = gameData.images.map(image => image.url);
         setGameImages(Image);
 
-        setGameAnswers(gameData.gpsData.map(gps=>({lat: gps.latitude || 34.068920, lon: gps.longtitude || -118.445183})));
+        setGameAnswers(gameData.gpsData.map(gps=>({lat: gps.latitude || 34.068920, lon: gps.longitude || -118.445183})));
 
         setRounds(Image.length);
 
@@ -107,41 +110,41 @@ export default function GamePage() {
         setLatGuessed(latLng.lat);
         setLonGuessed(latLng.lng);
         const roundData = gameAnswers[currentRound - 1];
+        setAnswerPosition({lat: roundData.lat, lng: roundData.lon});
+        setShowAnswer(true);
+
         getDistanceFromLatLonInM(
             latLng.lat, latLng.lng, 
             roundData.lat, roundData.lon
         ).then((res) => {
             let distance = parseInt(res);
+            setDistance(distance);
             let points = 0;
-            if (distance <= 2) {
-                points = 100;
-            } else if (distance <= 5 && distance > 2) {
-                points = 90;
-            } else if (distance <= 20 && distance > 5) {
-                points = 85;
-            } else if (distance <= 50 && distance > 20) {
-                points = 70;
-            } else if (distance <= 100 && distance > 50) {
-                points = 50;
-            } else if (distance <= 500 && distance > 100) {
-                points = 35;
-            } else if (distance <= 2500 && distance > 500) {
-                points = 20;
-            } else if (distance <= 7000 && distance > 2500) {
-                points = 10;
-            } else if (distance > 7000) {
-                points = 1;
-            }
-            setScore(score + points);
+            let newPoints = 0;
+
+            newPoints = 100/(1+(0.01*distance)**2);
+            newPoints = Math.round(newPoints);
+            console.log("ans lat: " + roundData.lat + " ");
+            console.log("ans lon: "+roundData.lon);
+            console.log("distance: "+distance);
+            console.log("guessed lat: "+latLng.lat);
+            console.log("guessed lon: "+latLng.lng);
+            console.log("newPoints: "+newPoints);
+
+            setScore(score + newPoints);
 
         });
-
-        if (currentRound < rounds) {
-            setCurrentRound(currentRound + 1);
-            setResetTimer(prev=>!prev);
-        } else {
-            setGameOver(true);
-        }
+        setIsFullScreen(true);
+        setTimeout(()=>{
+            setShowAnswer(false);
+            setIsFullScreen(false);
+            if (currentRound < rounds) {
+                setCurrentRound(currentRound + 1);
+                setResetTimer(prev=>!prev);
+            } else {
+                setGameOver(true);
+            }
+        }, 3000);
     };
 
     function handleNewLatLng(lat, lng){
@@ -199,7 +202,7 @@ export default function GamePage() {
                                     transform: 'scale(1)',
                                 }
                             }}>
-                                <Map newlatlng={handleNewLatLng} />
+                                <Map newlatlng={handleNewLatLng} showAnswer={showAnswer} answerPosition={answerPosition} isFullScreen={isFullScreen} dist={ddistance} />
                             </Box>
 
                             <Box sx={{
