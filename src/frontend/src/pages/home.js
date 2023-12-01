@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import { Container, Box, Typography, Button, CssBaseline } from '@mui/material';
 import topbanners from '../../src/pictures/topbanner2.avif';
 
 export default function Home() {
+  const userId = '6566909e5b3dd9dbb06f7795';
+  const [userData, setUserData] = useState(null);
+  const fetchUser = async () => {
+    // Call to getGame API
+    const response = await fetch(`/api/user_info/${userId}`);
+    if (!response.ok) {
+        console.log("error fetching data");
+        return;
+    }
+    const data = await response.json();
+    setUserData(data);
+};
+useEffect(()=>{
+  fetchUser();
+}, [userId]);
+  localStorage.setItem('userObj', JSON.stringify(userData));
+  localStorage.setItem('userId', userId);
+
   return (
     <>
       <CssBaseline /> {/* 用于确保跨浏览器的一致性，并设置默认背景色 */}

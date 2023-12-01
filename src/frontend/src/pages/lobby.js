@@ -5,7 +5,13 @@ import { CssBaseline } from '@mui/material';
 import BruinImage from '../pictures/bruin.png';
 
 export default function Lobby() {
-  const username = 'User123';
+    // TODO: @neiro localStorage.setItem('userobj', JSON.stringify(userobj));
+    // in the login page
+  const userobj = JSON.parse(localStorage.getItem('userObj'));
+  console.log(userobj);
+  const username = userobj.email;
+  const userId = localStorage.getItem('userId');
+  console.log(userId);
 
   return (
     <Box sx={{
@@ -19,8 +25,8 @@ export default function Lobby() {
           <Typography variant="h4" sx={{ fontFamily: 'Montserrat', color: 'white' }}>
             U See LA
           </Typography>
-          <Button onClick={() => { window.location.href = '/profile'; }} sx={{ p: 0, color: 'white' }}>
-            {username}
+          <Button onClick={() => { window.location.href = `/profile/${userId}`; }} sx={{ p: 0, color: 'white' }}>
+            {userId}
           </Button>
         </Toolbar>
       </AppBar>

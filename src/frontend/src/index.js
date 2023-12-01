@@ -67,7 +67,7 @@ const router = createBrowserRouter([
     element: <LookForQuiz/>,
   },
   {
-    path: "/profile",
+    path: "/profile/:userid",
     element: <Profile/>,
   },
   {

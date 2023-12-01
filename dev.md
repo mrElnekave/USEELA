@@ -76,6 +76,12 @@ nmcli device show | grep IP4.ADDRESS
 > You make the frontend by `npx create-react-app frontend`
 > This is what our chorus-lapilli looked like
 
+### Storing info to use across pages
+Use localStorage to set a variable to a key value then use that key on a different page to access to data.
+localStorage.setItem( )
+localStorage.getItem( )
+
+
 ### Running the frontend
 
 *In the src/frontend folder*
