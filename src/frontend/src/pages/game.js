@@ -60,6 +60,7 @@ export default function GamePage() {
     const [answerPosition, setAnswerPosition] = useState(null);
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [ddistance, setDistance] = useState(0);
+    const [sendScore, setSendScore] = useState(false);
 
     const gameId = (useParams().gameId);
 
@@ -93,6 +94,19 @@ export default function GamePage() {
             handleStartGame();
         }
     },[countdown, showGo]);
+
+    useEffect(()=>{
+        const userId = localStorage.getItem('userId');
+        console.log("send score to user " + userId);
+        fetch(`/api/user_info/${userId}`, {
+            method: 'PUT',
+            headers:{'Content-Type': 'application/json',},
+            body: JSON.stringify({score: score})
+        })
+        .then(response => response.json())
+        .then(data=>{console.log('Success: ', data);})
+        .catch((error)=>{console.error('Error: ', error);});
+    }, [sendScore]);
 
     const handleStartGame = () => {
         const Image = gameData.images.map(image => image.url);
@@ -143,6 +157,7 @@ export default function GamePage() {
                 setResetTimer(prev=>!prev);
             } else {
                 setGameOver(true);
+                setSendScore(prev=>!prev);
             }
         }, 3000);
     };
