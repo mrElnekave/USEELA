@@ -10,16 +10,24 @@ function Login() {
 	const [password, setPassword] = useState('')
 
 	async function submit(e) {
-		e.preventDefault()
+		e.preventDefault();
 		try {
-			const response = await axios.get('/api/user_info/login', {email, password}) 
-			if (response.data === "exist"){
-				alert("Signed In")
-				navigate('/', {state:{id:email}})
+			const response = await axios.post('/api/user_info/login', {email, password});
+			console.log(response);
+			if (response){
+				localStorage.setItem('userobj', JSON.stringify({response}));
+				navigate('/home');
+			}
+			else {
+				alert("Authentication Failed!");
+			}
+			/*if (response.data === "exist"){
+				localStorage.setItem('userobj', JSON.stringify({email, password}));
+				navigate('/home');
 			}
 			else if (response.data === "notexist"){
 				alert("Authentication Failed!")
-			}
+			}*/
 		}
 		catch (error){
 			console.log(error);
