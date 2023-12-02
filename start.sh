@@ -1,3 +1,5 @@
+
+killall node
 npm install
 
 nodemon ./src/backend/server.js & 
