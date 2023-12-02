@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react';
-import { Box, Container, Typography, Button, 
-  TableContainer, TableRow, TableCell, TablePagination } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Container, Typography, Button,
+  TableContainer, TableRow, TableCell, TablePagination, TableHead, TableBody } from '@mui/material';
 
 function createData(username, score) {
   return {username, score}
@@ -9,22 +9,21 @@ const Leaderboard = () => {
   const [page, setPage] = useState(0);
   const [rows, setRows] = useState([0, 10]);
   const rowsPerPage = 10;
-  // Replace with actual leaderboard data
-  const players = [
-    createData('Player1', 120),
-    createData('Player1', 110),
-    createData('Player1', 120),
-    createData('Player1', 110),
-    createData('Player1', 120),
-    createData('Player1', 110),
-    createData('Player1', 120),
-    createData('Player1', 110),
-    createData('Player1', 120),
-    createData('Player1', 110),
-    createData('Player1', 120),
-    createData('Player1', 110),
-    // more players...
-  ];
+  const [allUsers, setAllUsers] = useState([]);
+  const fetchAllUsers = async () => {
+    // Call to getUser API
+    const response = await fetch(`/api/user_info`);
+    if (!response.ok) {
+        console.log("error fetching data");
+        return;
+    }
+    const data = await response.json();
+    setAllUsers(data);
+    console.log(data)
+};
+useEffect(()=>{
+  fetchAllUsers();
+}, []);
 
   const changePage = (event, newPage) => {
     setPage(newPage);
@@ -45,37 +44,56 @@ const Leaderboard = () => {
       flexDirection: 'column',
       alignItems: 'center',
     }}>
-      <Typography variant='h3' color='#2774AE'>Leaderboard</Typography>
+      {allUsers && (
       <TableContainer sx={{
         display: 'flex',
         flexDirection: 'column',
-        bgcolor: 'white',
-        width: 0.5,
-        boxShadow: 10,
-        borderRadius: 2,
+        bgcolor: '#DAEBFE',
       }}>
-      {players.slice(rows[0], rows[1]).map((player, index) => (
+        <TableHead component="div" sx={{bgcolor: '#005587',}}>
+          <TableRow component="div">
+            <TableCell component="div" sx={{
+              width: 200,
+              fontWeight: 'bold',
+            }}>RANKING #</TableCell>
+            <TableCell component="div" sx={{
+              width: 10000,
+              fontWeight: 'bold',
+            }}>USERNAME</TableCell>
+            <TableCell component="div" align='right' sx={{ fontWeight: 'bold',}}>SCORE</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody component="div">
+      {allUsers.slice(rows[0], rows[1]).map((user, index) => (
         <TableRow component="div" key={index}>
+        <TableCell component="div" sx={{width: 480,}}><Typography variant='h5' key={index} sx={{fontWeight: 'bold',}}>{index+1+rows[0]}.</Typography></TableCell>
         <TableCell component="div" sx={{
-
-        }}><Typography variant='h4' key={index}>{index+1}</Typography></TableCell>
-        <TableCell component="div" align="right" sx={{
-          width: 10,
-        }}><Typography variant='h5' key={index}>{player.username}</Typography></TableCell>
-        <TableCell component="div" align="right" sx={{
-          width: 450,
-        }}><Typography variant='h6' key={index}>{player.score}</Typography></TableCell>
+          width: 10000,
+        }}><button id='profile' onClick={() => { window.location.href = `/profile/${user._id}`; }}
+         key={index} >{user.email.split('@')[0]}</button></TableCell>
+        <TableCell component="div" align='right'><Typography variant='h5' key={index} sx={{
+          color: '#2774AE',
+          }}>{user.score}</Typography></TableCell>
         </TableRow>
       ))}
+      </TableBody>
       </TableContainer>
+      )}
+      <Box sx={{
+        bgcolor: '#DAEBFE',
+        display: 'flex',
+        width: '100%',
+        justifyContent: 'center',
+      }}>
       <TablePagination 
       rowsPerPageOptions={[10]}
       component="div"
-      count={players.length}
-      rowsPerPage={10}
+      count={allUsers.length}
+      rowsPerPage={rowsPerPage}
       page={page}
       onPageChange={changePage}
       />
+      </Box>
     </Box>
     </Container>
   );

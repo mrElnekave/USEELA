@@ -92,6 +92,7 @@ const LookForQuiz = () => {
       </Box>
       <Box sx={{
         display: 'flex',
+        justifyContent: 'center',
         flexWrap: 'wrap',
       }}>
         {searchResults.map((game) => { // link to the quiz page with that id and the name
