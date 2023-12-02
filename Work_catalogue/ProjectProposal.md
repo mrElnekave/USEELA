@@ -13,7 +13,7 @@ Names: Rakil Kim, Cixuan Zhang, Xiaohan Song, Yamm Elnekave, Neiro Cabrera
    * Cookie to see if u are already logged in
  * 3 Features: 
    * Leaderboard
-   * Users can rate difficulty of quiz/picture
+   * Lookup and play specific quiz.
    * Users are able to add to quiz database (make ur own quiz)
  * Tools / Languages / Frameworks
    * DB: MongoDB
@@ -47,3 +47,14 @@ Names: Rakil Kim, Cixuan Zhang, Xiaohan Song, Yamm Elnekave, Neiro Cabrera
    * Leaderboard (MVP)
    * Profile (MVP)
    * Add a quiz 
+
+
+* Presentation
+
+1. Login page
+2. Close and show off cookies
+3. Play random quiz
+4. upload quiz
+5. look up our quiz and play it
+6. Go to leaderboard and see our score
+7. Go to profile and see our stats

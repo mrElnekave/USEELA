@@ -4,9 +4,15 @@
 
 Download node.js from [here](https://nodejs.org/en/download/)
 
+**NOTE: all steps can be skipped by running the start.sh script in the root folder**
+```bash
+./start.sh
+```
+
 Install the dependencies:
 
-*In the src/backend folder*
+
+*backend dependencies*
 
 ```bash
 npm install express
@@ -20,7 +26,7 @@ npm install sharp # convert pictures to .jpeg
 npm install heic-convert # extra converter for .heic
 ```
 
-*In the src/frontend folder*
+*frontend dependencies*
 
 ```bash
 npm install axios
@@ -39,20 +45,13 @@ npm install @emotion/styled
 
 *In the src/backend folder*
 
-You must copy over our private .env file from the discord server to the src/backend folder
+You must copy over our private .env file from the discord server to the root folder
 
-From src/backend folder:
-
-```bash
-npm run dev
-```
-
-Or from the proj folder:
+In the root folder:
 
 ```bash
 ./back.sh
 ```
-
 
 ### Simulating a client
 
