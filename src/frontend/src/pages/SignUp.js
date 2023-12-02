@@ -3,8 +3,6 @@ import { useNavigate, Link } from "react-router-dom"
 import axios from "axios"                             
 
 export default function SignUp() {
-        
-
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -13,9 +11,10 @@ export default function SignUp() {
         e.preventDefault(); 
 		try {
             const response = await axios.post("/api/user_info/signup/", {email, password})
-			console.log("Response: ", response.data);
+			//console.log("Response: ", response.data);
             if (response){
-                navigate('/home', {state:{id:email}})
+                localStorage.setItem('userobj', JSON.stringify({response}));   
+                navigate('/home');
             }
         }
         catch(error){
