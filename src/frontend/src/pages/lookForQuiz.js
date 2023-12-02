@@ -33,16 +33,20 @@ const LookForQuiz = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const [searchResults, setSearchResults] = useState([]);
-  const [games, setGames] = useState([{name:"boo", _id:1}]); // [game1, game2, ...]
+  const [games, setGames] = useState([[{name:"boo", _id:1}]]); // [game1, game2, ...]
 
   useEffect(() => {
     const fetchGames = async () => {
+        console.log("fetching games");
         const gameNames = await fetch('/api/game_info/getGameNames');
         if (gameNames.ok) {
             const data = [];
+            console.log("pre");
+            console.log(gameNames);
             data.push(
                 await gameNames.json()
             );
+            console.log("post");
             setGames(data);
             console.log(data);
         } else {
