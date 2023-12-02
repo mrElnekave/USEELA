@@ -14,11 +14,15 @@ const userSchema = new Schema({
     },
 	score: {
 		type: Number,
-		default: 0
+		default: 0,
 	},
 	quizzes: {
 		type: Array,
-		default: []
+		default: [],
+	},
+	authToken: {
+		type: String,
+		default: null,
 	},
 }, { timestamps: true });
 

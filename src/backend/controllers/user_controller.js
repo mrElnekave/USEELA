@@ -44,6 +44,7 @@ const login_user = async (req, res) => {
         //console.log({check});
         if (check){
             console.log("User Authenticated");
+			req.session.userId = check._id;
             res.status(200).json(check);
             //return res.status(200).json("exist");
         }
@@ -66,6 +67,7 @@ const sign_up_user = async (req, res) => {
         const check = await User.findOne({email:email});
         if (!check){
             new_user = await User.create({email, password});
+			req.session.userId = new_user._id;
             res.status(200).json(new_user);
         }
     }

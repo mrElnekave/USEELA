@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const express = require('express');
 const Image = require('./models/Image'); 
 const path = require('path'); // 
+const session = require('express-session');
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken');
 
 const app = express();
 
@@ -14,6 +17,25 @@ const userRoutes = require('./routes/user_info');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(session({
+	secret: 'A5678GHJH767',
+	resave: true,
+	saveUnitialized: true,
+	cookie: {
+		secure: false,
+		maxAge: 86400000,
+	}
+}));
+
+const lobbyIfCookie = (req, res, next) => {
+	if (req.session.userId){
+		return res.redirect('/home');
+	}
+	next();
+}
+
+app.use(lobbyIfCookie);
 
 app.use((req, res, next) => {
     console.log(req.path, req.method);

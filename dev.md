@@ -24,6 +24,9 @@ npm install exifreader --save
 npm install multer
 npm install sharp # convert pictures to .jpeg
 npm install heic-convert # extra converter for .heic
+npm install cookie-parser
+npm install jsonwebtoken
+npm install express-session
 ```
 
 *frontend dependencies*
