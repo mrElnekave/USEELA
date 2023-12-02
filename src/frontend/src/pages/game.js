@@ -25,11 +25,22 @@ function deg2rad(deg){
 
 export default function GamePage() {
     const fetchGame = async () => {
+        console.log("fetching game");
         // Call to getGame API
-        const response = await fetch(`/api/game_info/${gameId}`);
-        const data = await response.json();
-        console.log("fetchgame")
-        setGameData(data);
+        try{
+            const response = await fetch(`/api/game_info/${gameId}`);
+            if (!response.ok) {
+                console.log("error fetching data");
+                return;
+            }
+            const data = await response.json();
+            console.log("data", data)
+            setGameData(data);
+        }
+        catch (error) {
+            console.log("error fetching data");
+            console.log(error);
+        }
     };
 
     const fetchRandomGame = async () => {
@@ -90,10 +101,12 @@ export default function GamePage() {
     }, [countdown, showGo]);
     
     useEffect(()=>{
-        if (countdown === 0 && !showGo){
+        if (countdown === 0 && !showGo && gameData){
+            // only if we already got the game data otherwise wait for it
             handleStartGame();
+            
         }
-    },[countdown, showGo]);
+    },[countdown, showGo, gameData]);
 
     useEffect(()=>{
         const userId = "6566909e5b3dd9dbb06f7795"; //localStorage.getItem('userId');
@@ -113,6 +126,7 @@ export default function GamePage() {
         console.log("gameData: " + gameData.images);
         const Image = gameData.images.map(image => image.url);
         setGameImages(Image);
+        console.log("img", Image);
 
         setGameAnswers(gameData.gpsData.map(gps=>({lat: gps.latitude || 34.068920, lon: gps.longitude || -118.445183})));
 
@@ -193,11 +207,8 @@ export default function GamePage() {
                         <Box sx={{
                             position: 'relative', // for absolute positioning of child elements
                             width: '100%', height: '100vh', // full viewport height
-<<<<<<< Updated upstream
-                            backgroundImage: `url(${backgroundImageUrl})`, // replace with your background image path
-=======
+
                             backgroundImage: `url(${backgroundImageUrl})`, // TODO: get portrait images to work
->>>>>>> Stashed changes
                             backgroundSize: 'cover', // cover the entire viewport
                         }}>
                             <Box sx={{
