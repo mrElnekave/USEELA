@@ -48,3 +48,16 @@ button {
 div {
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
+.countdown-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #FFF;
+}
+
+.countdown-text{
+  font-size: 5rem;
+  color: #000;
+}

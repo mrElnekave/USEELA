@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Box, Container, Typography, Button} from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 function QuizTest() {
@@ -17,24 +18,37 @@ function QuizTest() {
         setGameData(data);
     };
 
-    fetchGame();
+    useEffect(()=>{
+        fetchGame();
+    }, [gameId]);
 
     const handleClick = () => {
         window.location.href = `/game/${gameId}`;
     };
 
     return (
-        <div>
+        <Container sx={{
+            display: 'inline',
+        }}>
+            <button onClick={() => { window.location.href = '/lobby'; }}>U See LA</button>
             {gameData && (
-            <div>
-                <div>
-                    <h3>{gameData.name}</h3>
-                    <p>{gameData.description}</p>
-                </div>
-                <button onClick={handleClick}>Play Game</button>
-            </div>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
+            >
+                <Typography variant='h4' gutterBottom>{gameData.name}</Typography>
+                <Typography variant='body1' gutterBottom sx={{
+                    mt: 1,
+                    mb: 1,
+                }}>{gameData.description}</Typography>
+                <Button onClick={handleClick} sx={{
+                    fontSize: 25,
+                }} gutterBottom>Play Game</Button>
+            </Box>
             )}
-        </div>
+        </Container>
     );
 }
 

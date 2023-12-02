@@ -12,6 +12,9 @@ import Leaderboard from './pages/leaderboard';
 import ImageUpload from './pages/ImageUpload';
 import QuizTest from './pages/QuizTest';
 import QuizDisplay from './pages/QuizDisplay';
+import SignUp from './pages/SignUp';
+import Login from './pages/Login';
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -21,6 +24,18 @@ import {
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <App/>,
+  },
+  {
+    path: "/login", 
+    element: <Login/>
+  },
+  {
+    path: "/signup", 
+    element: <SignUp/>
+  },
+  {
+    path: "/home",
     element: <Home/>,
   },
   {
@@ -52,7 +67,7 @@ const router = createBrowserRouter([
     element: <LookForQuiz/>,
   },
   {
-    path: "/profile",
+    path: "/profile/:userid",
     element: <Profile/>,
   },
   {

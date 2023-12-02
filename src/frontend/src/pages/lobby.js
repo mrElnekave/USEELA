@@ -5,7 +5,12 @@ import { CssBaseline } from '@mui/material';
 import BruinImage from '../pictures/bruin.png';
 
 export default function Lobby() {
-  const username = 'User123';
+  const userObj = JSON.parse(localStorage.getItem('userobj'));
+  console.log(userObj);
+  const username = userObj.response.data.email.split('@');
+
+  const userId = userObj.response.data._id;
+  console.log(userId);
 
   return (
     <Box sx={{
@@ -19,8 +24,8 @@ export default function Lobby() {
           <Typography variant="h4" sx={{ fontFamily: 'Montserrat', color: 'white' }}>
             U See LA
           </Typography>
-          <Button onClick={() => { window.location.href = '/profile'; }} sx={{ p: 0, color: 'white' }}>
-            {username}
+          <Button onClick={() => { window.location.href = `/profile/${userId}`; }} sx={{ p: 0, color: 'white' }}>
+            {username[0]}
           </Button>
         </Toolbar>
       </AppBar>

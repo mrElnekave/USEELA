@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import { Container, Box, Typography, Button, CssBaseline } from '@mui/material';
 import topbanners from '../../src/pictures/topbanner2.avif';
 
 export default function Home() {
+
   return (
     <>
       <CssBaseline /> {/* 用于确保跨浏览器的一致性，并设置默认背景色 */}

@@ -24,17 +24,36 @@ function deg2rad(deg){
 }
 
 export default function GamePage() {
-    // TODO: CHANGE HAVE THE PAGE TAKE A RANDOM OR THE GAMEID
-    const gameId = (useParams().gameId);
-    if (gameId) {
-        // make get request to get game
-        console.log("gameId: " + gameId);
-    }else{
-        // make get a random game
-        console.log("no gameId");
-    }
+    const fetchGame = async () => {
+        console.log("fetching game");
+        // Call to getGame API
+        try{
+            const response = await fetch(`/api/game_info/${gameId}`);
+            if (!response.ok) {
+                console.log("error fetching data");
+                return;
+            }
+            const data = await response.json();
+            console.log("data", data)
+            setGameData(data);
+        }
+        catch (error) {
+            console.log("error fetching data");
+            console.log(error);
+        }
+    };
 
-    const [rounds, setRounds] = useState(5); // default number of rounds is 5
+    const fetchRandomGame = async () => {
+        // Call to randomGame API
+        // suppose randomGame API's URL is '/api/game_info/random'
+        const response = await fetch('/api/game_info/random');
+        const data = await response.json();
+        console.log("random")
+     //   console.log(data.)
+        setGameData(data);
+    };
+
+    const [rounds, setRounds] = useState(0); // default number of rounds is 5
     //const [test, setTest] = useState(2);
     const [currentRound, setCurrentRound] = useState(1);
     const [latGuessed, setLatGuessed] = useState(34.068920);
@@ -45,20 +64,73 @@ export default function GamePage() {
     const [gameOver, setGameOver] = useState(false);
     const [backgroundImageUrl, setBackgroundImageUrl] = useState('');
     const [resetTimer, setResetTimer] = useState(false);
+    const [gameData, setGameData] = useState(null);
+    const [countdown, setCountdown] = useState(4);
+    const [showGo, setShowGo] = useState(false);
+    const [showAnswer, setShowAnswer] = useState(false);
+    const [answerPosition, setAnswerPosition] = useState(null);
+    const [isFullScreen, setIsFullScreen] = useState(false);
+    const [ddistance, setDistance] = useState(0);
+    const [sendScore, setSendScore] = useState(false);
+
+    const gameId = (useParams().gameId);
+
+    useEffect(()=>{
+        if (gameId) { 
+            console.log("gameId: " + gameId);
+            fetchGame();
+        }else{
+            // make get a random game
+            console.log("no gameId");
+            fetchRandomGame();
+        }
+    }, []);
+
+    useEffect(()=>{
+        let timer;
+        if (countdown > 0){
+            timer = setTimeout(()=> setCountdown(countdown-1), 1000);
+        }else if (countdown === 0 && !showGo){
+            setShowGo(true);
+            timer = setTimeout(() => {
+                //handleStartGame();
+                setShowGo(false);
+            }, 1000);
+        }
+        return ()=> clearTimeout(timer);
+    }, [countdown, showGo]);
+    
+    useEffect(()=>{
+        if (countdown === 0 && !showGo && gameData){
+            // only if we already got the game data otherwise wait for it
+            handleStartGame();
+            
+        }
+    },[countdown, showGo, gameData]);
+
+    useEffect(()=>{
+        const userId = "6566909e5b3dd9dbb06f7795"; //localStorage.getItem('userId');
+        console.log("send score to user " + userId);
+        fetch(`/api/user_info/${userId}`, {
+            method: 'PUT',
+            headers:{'Content-Type': 'application/json',},
+            body: JSON.stringify({score: score})
+        })
+        .then(response => response.json())
+        .then(data=>{console.log('Success: ', data);})
+        .catch((error)=>{console.error('Error: ', error);});
+    }, [sendScore]);
 
     const handleStartGame = () => {
-        setGameImages(["/testPics/pic1.jpeg","testPics/pic2.jpeg","testPics/pic3.jpeg","testPics/pic4.jpeg","testPics/pic5.jpeg"]);
-        // TODO: need image links in URL form
+        console.log("gameData: " + gameData);
+        console.log("gameData: " + gameData.images);
+        const Image = gameData.images.map(image => image.url);
+        setGameImages(Image);
+        console.log("img", Image);
 
-        setGameAnswers([
-            {lat: 45.464664, lon: 9.188540},
-            {lat:34.018116, lon:-6.835709},
-            {lat:33.738045, lon:73.084488},
-            {lat:-23.742489, lon:-65.491692},
-            {lat:-21.178986, lon:-175.198242}
+        setGameAnswers(gameData.gpsData.map(gps=>({lat: gps.latitude || 34.068920, lon: gps.longitude || -118.445183})));
 
-            // TODO: need answers in (latitude, longitude) form from backend 
-        ]);
+        setRounds(Image.length);
 
         setResetTimer(prev => !prev);
     };
@@ -68,41 +140,42 @@ export default function GamePage() {
         setLatGuessed(latLng.lat);
         setLonGuessed(latLng.lng);
         const roundData = gameAnswers[currentRound - 1];
+        setAnswerPosition({lat: roundData.lat, lng: roundData.lon});
+        setShowAnswer(true);
+
         getDistanceFromLatLonInM(
             latLng.lat, latLng.lng, 
             roundData.lat, roundData.lon
         ).then((res) => {
             let distance = parseInt(res);
+            setDistance(distance);
             let points = 0;
-            if (distance <= 2) {
-                points = 100;
-            } else if (distance <= 5 && distance > 2) {
-                points = 90;
-            } else if (distance <= 20 && distance > 5) {
-                points = 85;
-            } else if (distance <= 50 && distance > 20) {
-                points = 70;
-            } else if (distance <= 100 && distance > 50) {
-                points = 50;
-            } else if (distance <= 500 && distance > 100) {
-                points = 35;
-            } else if (distance <= 2500 && distance > 500) {
-                points = 20;
-            } else if (distance <= 7000 && distance > 2500) {
-                points = 10;
-            } else if (distance > 7000) {
-                points = 1;
-            }
-            setScore(score + points);
+            let newPoints = 0;
+
+            newPoints = 100/(1+(0.01*distance)**2);
+            newPoints = Math.round(newPoints);
+            console.log("ans lat: " + roundData.lat + " ");
+            console.log("ans lon: "+roundData.lon);
+            console.log("distance: "+distance);
+            console.log("guessed lat: "+latLng.lat);
+            console.log("guessed lon: "+latLng.lng);
+            console.log("newPoints: "+newPoints);
+
+            setScore(score + newPoints);
 
         });
-
-        if (currentRound < rounds) {
-            setCurrentRound(currentRound + 1);
-            setResetTimer(prev=>!prev);
-        } else {
-            setGameOver(true);
-        }
+        setIsFullScreen(true);
+        setTimeout(()=>{
+            setShowAnswer(false);
+            setIsFullScreen(false);
+            if (currentRound < rounds) {
+                setCurrentRound(currentRound + 1);
+                setResetTimer(prev=>!prev);
+            } else {
+                setGameOver(true);
+                setSendScore(prev=>!prev);
+            }
+        }, 3000);
     };
 
     function handleNewLatLng(lat, lng){
@@ -122,17 +195,20 @@ export default function GamePage() {
             {!gameOver ? (
                 <>
                     {gameImages.length === 0 && (
-                        <>
-                            <input type="number" value={rounds} onChange={e=>setRounds(e.target.value)} />
-                            <Button onClick={handleStartGame}>Start</Button>
-                        </>
+                        <Box className="countdown-container">
+                            {countdown == 1
+                                ? <Typography variant="h1" className="countdown-text">Go!</Typography>
+                                : <Typography variant="h1" className="countdown-text">{countdown-1}</Typography>
+                            }
+                        </Box>
                     )}
                     
                     {gameImages.length > 0 && (
                         <Box sx={{
                             position: 'relative', // for absolute positioning of child elements
                             width: '100%', height: '100vh', // full viewport height
-                            backgroundImage: `url(${backgroundImageUrl})`, // replace with your background image path
+
+                            backgroundImage: `url(${backgroundImageUrl})`, // TODO: get portrait images to work
                             backgroundSize: 'cover', // cover the entire viewport
                         }}>
                             <Box sx={{
@@ -158,7 +234,7 @@ export default function GamePage() {
                                     transform: 'scale(1)',
                                 }
                             }}>
-                                <Map newlatlng={handleNewLatLng} />
+                                <Map newlatlng={handleNewLatLng} showAnswer={showAnswer} answerPosition={answerPosition} isFullScreen={isFullScreen} dist={ddistance} />
                             </Box>
 
                             <Box sx={{

@@ -18,13 +18,16 @@ const path = require('path');
 
 // Function to get an image
 const getImage = async (req, res) => {
+    console.log("in getImage");
     try {
         const imageId = req.params.id;
         const image = await Image.findById(imageId);
 
         if (!image) {
+            console.log("image not found");
             return res.status(404).send('Image not found');
         }
+        console.log(image.imagebin);
         res.set('Content-Type', 'image/jpeg');
         res.send(image.imagebin);
     } catch (error) {
@@ -120,9 +123,8 @@ const getGame = async (req, res) => {
             return;
         }
 
-        const images = await Image.find({ '_id': { $in: lookup.imageIds } });
-        const imagesInfo = images.map(image => {
-            return { id: image._id, url: `http://localhost:3000/api/images/${image._id}` };
+        const imagesInfo = lookup.imageIds.map(image => {
+            return { id: image._id, url: `/api/images/${image._id}` };
         });
 
         res.status(200).json({
@@ -180,7 +182,7 @@ const createGame = async (req, res) => {
         await newQuiz.save();
 
         const imagesInfo = imageIds.map(id => {
-            const imageUrl = `http://localhost:3000/api/images/${id}`; // URL for local environment
+            const imageUrl = `/api/images/${id}`; // URL for local environment
             return { id, url: imageUrl };
         });
 

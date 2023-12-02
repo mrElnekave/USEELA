@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Box, Container, Button, Typography, TextField, Input, Card, CardActionArea } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 
 function ImageUpload() {
@@ -11,6 +12,7 @@ function ImageUpload() {
     accept: 'image/*',
     onDrop: acceptedFiles => {
       setFiles(acceptedFiles);
+      console.log(files);
     }
   });
 
@@ -48,41 +50,74 @@ function ImageUpload() {
   };
   
   return (
-    <div>
+    <Container sx={{
+      display: 'inline',
+    }}>
+      <button onClick={() => { window.location.href = '/lobby'; }}>U See LA</button>
+      <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
         <form onSubmit={handleSubmit}>
-          <div>
-            <label>
-              Quiz Name:
-              <input 
-                type="text" 
+          <Box>
+              <Typography variant='h6' sx={{color: '#2774AE', mb: 1}}>Quiz Name: </Typography>
+              <TextField 
+                label='Enter name'
                 value={quizName} 
                 onChange={(e) => setQuizName(e.target.value)} 
+                variant='outlined'
+                sx={{width: '300px'}}
               />
-            </label>
-          </div>
-          <div>
-            <label>
-              Quiz Description:
-              <textarea 
+          </Box>
+          <Box sx={{
+            mt: 1, 
+            mb: 1,
+          }}>
+          <Typography variant='h6' sx={{color: '#2774AE'}}>Quiz Description: </Typography>
+              <TextField 
+                label='Enter description'
+                multiline
+                rows={4}
+                variant='filled'
                 value={quizDescription} 
                 onChange={(e) => setQuizDescription(e.target.value)} 
+                sx={{width:'300px'}}
               />
-            </label>
-          </div>
-          <div {...getRootProps()} className="upload-button">
-            <input {...getInputProps()} />
-            <p>Drag & drop some images here, or click to select images</p>
-          </div>
-          <button type="submit" disabled={files.length === 0}>Upload</button>
+          </Box>
+          <Card {...getRootProps()} className="upload-button" sx={{
+            width: '300px',
+            height: '200px',
+            borderRadius: 7,
+          }}
+          >
+            <CardActionArea sx={{
+            width: '300px',
+            height: '200px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 7,
+            bgcolor: '#DAEBFE',
+            }}>
+            <Typography variant='h6' sx={{fontWeight: 'bold'}}>Drag & drop images here</Typography> 
+            <Typography>or click to browse from device</Typography>
+            <Input type='file' {...getInputProps()} />
+            </CardActionArea>
+          </Card>
+          <Button type="submit" disabled={files.length === 0 || quizName === ''} variant='contained' sx={{mt: 1,}}>Upload</Button>
         </form>
-        <div>
-        {uploadedImages.map((image, index) => (
-          <img key={index} src={`/api/images/${image.id}`} alt={`Uploaded ${index}`}/>
-        ))}
-      </div>
-    </div>
+        <Box>
+          {uploadedImages.map((image, index) => (
+            <img key={index} src={`/api/images/${image.id}`} alt={`Uploaded ${index}`}/>
+          ))}
+        </Box>
+        </Box>
+      </Container>
+
   );
-}
+};
 // img key={index} src={image.url} alt={`Uploaded ${index}`} 
 
 export default ImageUpload;

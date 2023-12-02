@@ -29,6 +29,7 @@ npm install heic-convert # extra converter for .heic
 *frontend dependencies*
 
 ```bash
+npm install axios
 npm install react-router-dom
 npm install react-dropzone
 npm install rsuite
@@ -74,6 +75,12 @@ nmcli device show | grep IP4.ADDRESS
 
 > You make the frontend by `npx create-react-app frontend`
 > This is what our chorus-lapilli looked like
+
+### Storing info to use across pages
+Use localStorage to set a variable to a key value then use that key on a different page to access to data.
+localStorage.setItem( )
+localStorage.getItem( )
+
 
 ### Running the frontend
 
