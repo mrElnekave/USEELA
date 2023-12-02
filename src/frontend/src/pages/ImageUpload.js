@@ -7,7 +7,7 @@ function ImageUpload() {
   const [quizName, setQuizName] = useState('');
   const [quizDescription, setQuizDescription] = useState('');
   const [uploadedImages, setUploadedImages] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
@@ -18,37 +18,44 @@ function ImageUpload() {
 
   const handleSubmit = async event => {
     event.preventDefault();
+    setIsLoading(true); // loading animation
     const formData = new FormData();
     files.forEach(file => {
-      formData.append('photos', file);
+        formData.append('photos', file);
     });
     formData.append('name', quizName);
     formData.append('description', quizDescription);
 
     try {
-      const response = await fetch('/api/game_info/', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await response.json();
-      console.log('File uploaded successfully:', data);
-
-      if (data.images) {
-        setUploadedImages(data.images);
-      }
-
-      reset(); 
+        const response = await fetch('/api/game_info/', {
+            method: 'POST',
+            body: formData,
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Upload failed');
+        }
+        const data = await response.json();
+        if (data.images) {
+            setUploadedImages(data.images);
+        }
+        console.log("File uploaded successfully");
+        reset();
     } catch (error) {
-      console.error('Error uploading file:', error);
+        console.error('Error uploading file:', error);
+        alert(error.message);
+    } finally {
+        setIsLoading(false); //end animation
     }
-  };
+};
+
 
   const reset = () => {
     setFiles([]);
     setQuizName('');
     setQuizDescription('');
   };
-  
+
   return (
     <Container sx={{
       display: 'inline',
@@ -108,11 +115,12 @@ function ImageUpload() {
           </Card>
           <Button type="submit" disabled={files.length === 0 || quizName === ''} variant='contained' sx={{mt: 1,}}>Upload</Button>
         </form>
-        <Box>
-          {uploadedImages.map((image, index) => (
-            <img key={index} src={`/api/images/${image.id}`} alt={`Uploaded ${index}`}/>
-          ))}
-        </Box>
+        {isLoading && <div className="loader"></div>}
+            <Box>
+                {uploadedImages.map((image, index) => (
+                    <img key={index} src={`/api/images/${image.id}`} alt={`Uploaded ${index}`} />
+                ))}
+            </Box>
         </Box>
       </Container>
 
