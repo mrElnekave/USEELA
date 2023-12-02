@@ -28,7 +28,7 @@ export default function GamePage() {
         // Call to getGame API
         const response = await fetch(`/api/game_info/${gameId}`);
         const data = await response.json();
-        console.log(data)
+        console.log("fetchgame")
         setGameData(data);
     };
 
@@ -37,7 +37,7 @@ export default function GamePage() {
         // suppose randomGame API's URL is '/api/game_info/random'
         const response = await fetch('/api/game_info/random');
         const data = await response.json();
-        console.log(data)
+        console.log("random")
      //   console.log(data.)
         setGameData(data);
     };
@@ -73,7 +73,7 @@ export default function GamePage() {
             console.log("no gameId");
             fetchRandomGame();
         }
-    }, [gameId]);
+    }, []);
 
     useEffect(()=>{
         let timer;
@@ -96,7 +96,7 @@ export default function GamePage() {
     },[countdown, showGo]);
 
     useEffect(()=>{
-        const userId = localStorage.getItem('userId');
+        const userId = "6566909e5b3dd9dbb06f7795"; //localStorage.getItem('userId');
         console.log("send score to user " + userId);
         fetch(`/api/user_info/${userId}`, {
             method: 'PUT',
@@ -109,6 +109,8 @@ export default function GamePage() {
     }, [sendScore]);
 
     const handleStartGame = () => {
+        console.log("gameData: " + gameData);
+        console.log("gameData: " + gameData.images);
         const Image = gameData.images.map(image => image.url);
         setGameImages(Image);
 

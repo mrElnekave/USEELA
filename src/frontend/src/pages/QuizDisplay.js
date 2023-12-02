@@ -9,7 +9,9 @@ function QuizTest() {
     
     const fetchGame = async () => {
         // Call to getGame API
+        console.log("fetching data");
         const response = await fetch(`/api/game_info/${gameId}`);
+        console.log(response);
         if (!response.ok) {
             console.log("error fetching data");
             return;
@@ -20,7 +22,7 @@ function QuizTest() {
 
     useEffect(()=>{
         fetchGame();
-    }, [gameId]);
+    }, []);
 
     const handleClick = () => {
         window.location.href = `/game/${gameId}`;
@@ -32,21 +34,11 @@ function QuizTest() {
         }}>
             <button onClick={() => { window.location.href = '/lobby'; }}>U See LA</button>
             {gameData && (
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-            }}
-            >
-                <Typography variant='h4' gutterBottom>{gameData.name}</Typography>
-                <Typography variant='body1' gutterBottom sx={{
-                    mt: 1,
-                    mb: 1,
-                }}>{gameData.description}</Typography>
-                <Button onClick={handleClick} sx={{
-                    fontSize: 25,
-                }} gutterBottom>Play Game</Button>
-            </Box>
+            <>
+            <button onClick={handleClick}>Start Game</button>
+            <div>{gameData.description}</div>
+            </>
+            
             )}
         </Container>
     );
