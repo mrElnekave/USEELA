@@ -5,12 +5,11 @@ import { CssBaseline } from '@mui/material';
 import BruinImage from '../pictures/bruin.png';
 
 export default function Lobby() {
-    // TODO: @neiro localStorage.setItem('userobj', JSON.stringify(userobj));
-    // in the login page
-  const userobj = JSON.parse(localStorage.getItem('userObj'));
-  console.log(userobj);
-  const username = userobj.email;
-  const userId = localStorage.getItem('userId');
+  const userObj = JSON.parse(localStorage.getItem('userobj'));
+  console.log(userObj);
+  const username = userObj.response.data.email.split('@');
+
+  const userId = userObj.response.data._id;
   console.log(userId);
 
   return (
@@ -26,7 +25,7 @@ export default function Lobby() {
             U See LA
           </Typography>
           <Button onClick={() => { window.location.href = `/profile/${userId}`; }} sx={{ p: 0, color: 'white' }}>
-            {userId}
+            {username[0]}
           </Button>
         </Toolbar>
       </AppBar>
