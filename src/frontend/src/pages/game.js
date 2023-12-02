@@ -73,8 +73,8 @@ export default function GamePage() {
     const [ddistance, setDistance] = useState(0);
     const [sendScore, setSendScore] = useState(false);
 
-    const gameId = (useParams().gameId);
-
+    const gameId = useParams().gameId;
+    const [gameEnded, setGameEnded] = useState(false);
     useEffect(()=>{
         if (gameId) { 
             console.log("gameId: " + gameId);
@@ -85,6 +85,12 @@ export default function GamePage() {
             fetchRandomGame();
         }
     }, []);
+
+    useEffect(()=>{
+        if (gameOver) {
+            setGameEnded(true);
+        }
+    }, [gameOver]);
 
     useEffect(()=>{
         let timer;
@@ -108,30 +114,32 @@ export default function GamePage() {
         }
     },[countdown, showGo, gameData]);
 
-    useEffect(()=>{
-        const userId = "6566909e5b3dd9dbb06f7795"; //localStorage.getItem('userId');
-        console.log("send score to user " + userId);
-        fetch(`/api/user_info/${userId}`, {
-            method: 'PUT',
-            headers:{'Content-Type': 'application/json',},
-            body: JSON.stringify({score: score})
-        })
-        .then(response => response.json())
-        .then(data=>{console.log('Success: ', data);})
-        .catch((error)=>{console.error('Error: ', error);});
-    }, [sendScore]);
+    useEffect (()=>{
+        if (gameEnded) {
+            const userId = localStorage.getItem('userId');
+            fetch(`/api/user_info/${userId}`, {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({score: score})
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success: ', data);
+                setGameEnded(false);
+            })
+            .catch(error => {console.error('Error: ', error);});
+        }
+    }, [gameEnded, score]);
 
     const handleStartGame = () => {
-        console.log("gameData: " + gameData);
-        console.log("gameData: " + gameData.images);
+        if (!gameData || !gameData.images){
+            console.log("No game data");
+            return;
+        }
         const Image = gameData.images.map(image => image.url);
         setGameImages(Image);
-        console.log("img", Image);
-
         setGameAnswers(gameData.gpsData.map(gps=>({lat: gps.latitude || 34.068920, lon: gps.longitude || -118.445183})));
-
         setRounds(Image.length);
-
         setResetTimer(prev => !prev);
     };
 
