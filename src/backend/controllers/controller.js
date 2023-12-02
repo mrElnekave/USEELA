@@ -19,13 +19,13 @@ const path = require('path');
 
 // Function to get an image
 const getImage = async (req, res) => {
-    console.log("in getImage");
+    // console.log("in getImage");
     try {
         const imageId = req.params.id;
         const image = await Image.findById(imageId);
 
         if (!image) {
-            console.log("image not found");
+            // console.log("image not found");
             return res.status(404).send('Image not found');
         }
         res.set('Content-Type', 'image/jpeg');
@@ -79,7 +79,7 @@ async function postImage(file) {
 const getGames = async (req, res) => {
     try {
         const games = await Quiz.find().sort({ createdAt: -1 }); // descending order
-        console.log(games)
+        // console.log(games)
         res.status(200).json(games);
     } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });
@@ -147,8 +147,8 @@ function extractGPSData(exifData) {
     let longitude = exifData.GPSLongitude ? exifData.GPSLongitude.description : null;
     const altitude = exifData.GPSAltitude ? exifData.GPSAltitude.description : null;
 
-    console.log(exifData.GPSLatitudeRef.description)
-    console.log(exifData.GPSLongitudeRef.description)
+    // console.log(exifData.GPSLatitudeRef.description)
+    // console.log(exifData.GPSLongitudeRef.description)
 
     if (exifData.GPSLatitudeRef && exifData.GPSLatitudeRef.description.includes('South')) {
         latitude = -latitude;
@@ -174,7 +174,6 @@ const createGame = async (req, res) => {
             } catch (error) {
                 console.error('Error extracting EXIF data:', error);
             }
-            console.log("1")
             const GpsData = extractGPSData(exifData);
             // check if all contains valid GPSdata
             if (!GpsData || !GpsData.latitude || !GpsData.longitude) {
@@ -182,16 +181,16 @@ const createGame = async (req, res) => {
              }
             
             actual_locations.push(GpsData);
-            console.log("2")
+         
             const imageData = await postImage(file);
             imageIds.push(imageData.id);
-            console.log("3")
+         
         }
-        console.log("creating lookups")
+   
         const lookup = new Lookup({ imageIds });
-        console.log(lookup)
+   
         await lookup.save();
-        console.log("image extracted")
+   
         const newQuiz = new Quiz({
             name,
             description,
@@ -200,12 +199,12 @@ const createGame = async (req, res) => {
         });
         await newQuiz.save();
 
-        console.log("saved")
         const imagesInfo = imageIds.map(id => {
             const imageUrl = `/api/images/${id}`; // URL for local environment
             return { id, url: imageUrl };
         });
-        res.status(200).json({ message: "Quiz created successfully", images: imagesInfo});
+        // res.status(200).json({ message: "Quiz created successfully", images: imagesInfo});
+        res.status(200).json({ message: "Quiz created successfully", quiz: newQuiz, images: imagesInfo });
     } catch (error) {
         console.error("Error creating quiz:", error);
         res.status(500).json({ error: "Internal Server Error" });

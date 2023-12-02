@@ -39,7 +39,7 @@ function ImageUpload() {
         if (data.images) {
             setUploadedImages(data.images);
         }
-        console.log("File uploaded successfully");
+        // console.log("File uploaded successfully");
         reset();
     } catch (error) {
         console.error('Error uploading file:', error);
