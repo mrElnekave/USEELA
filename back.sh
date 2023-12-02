@@ -1,1 +1,1 @@
-cd src/backend/ ; npm run dev
+nodemon ./src/backend/server.js & 
