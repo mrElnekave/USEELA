@@ -131,17 +131,36 @@ export default function GamePage() {
         }
     }, [gameEnded, score]);
 
+    useEffect(()=>{
+        if (currentRound < rounds && gameImages[currentRound]){
+            setBackgroundImageUrl(gameImages[currentRound]);
+        }        
+    }, [currentRound, gameImages, rounds]);
+
     const handleStartGame = () => {
         if (!gameData || !gameData.images){
             console.log("No game data");
             return;
         }
-        const Image = gameData.images.map(image => image.url);
-        setGameImages(Image);
+        const ImageUrls = gameData.images.map(image => image.url);
+        preloadImages(ImageUrls);
+        setGameImages(ImageUrls);
         setGameAnswers(gameData.gpsData.map(gps=>({lat: gps.latitude || 34.068920, lon: gps.longitude || -118.445183})));
-        setRounds(Image.length);
+        setRounds(ImageUrls.length);
         setResetTimer(prev => !prev);
+        if (ImageUrls.length > 0){
+            setBackgroundImageUrl(ImageUrls[0]);
+        }
     };
+
+    function preloadImages(urls){
+        urls.forEach(url=>{
+            const img = new Image();
+            img.src = url;
+            img.style.display = 'none';
+            document.body.appendChild(img);
+        });
+    }
 
 
     const handleGuess = (latLng) => {
