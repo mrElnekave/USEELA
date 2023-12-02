@@ -193,7 +193,11 @@ export default function GamePage() {
                         <Box sx={{
                             position: 'relative', // for absolute positioning of child elements
                             width: '100%', height: '100vh', // full viewport height
+<<<<<<< Updated upstream
                             backgroundImage: `url(${backgroundImageUrl})`, // replace with your background image path
+=======
+                            backgroundImage: `url(${backgroundImageUrl})`, // TODO: get portrait images to work
+>>>>>>> Stashed changes
                             backgroundSize: 'cover', // cover the entire viewport
                         }}>
                             <Box sx={{
