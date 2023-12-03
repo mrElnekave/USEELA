@@ -1,13 +1,18 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import axios from "axios"
 
 function Login() {
-	// Check if cookies are enabled, auto go to home
-	// Display login, have option to sign up
 	const navigate = useNavigate()
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	
+    useEffect(() => {
+		const userToken = localStorage.getItem('userobj');
+        if (userToken){
+            navigate('/home');
+        }
+	}, [navigate]);
 
 	async function submit(e) {
 		e.preventDefault();
@@ -21,19 +26,12 @@ function Login() {
 			else {
 				alert("Authentication Failed!");
 			}
-			/*if (response.data === "exist"){
-				localStorage.setItem('userobj', JSON.stringify({email, password}));
-				navigate('/home');
-			}
-			else if (response.data === "notexist"){
-				alert("Authentication Failed!")
-			}*/
 		}
 		catch (error){
 			console.log(error);
 		}
-	}
-
+	} 
+	
 	return (
 		<div className="login">
 			<h1>UCLA GEOGUESSER</h1>
