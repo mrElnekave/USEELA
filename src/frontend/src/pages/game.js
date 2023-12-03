@@ -251,7 +251,10 @@ export default function GamePage() {
                             width: '100%', height: '100vh', // full viewport height
 
                             backgroundImage: `url(${backgroundImageUrl})`, // TODO: get portrait images to work
-                            backgroundSize: 'cover', // cover the entire viewport
+                            backgroundSize: 'contain', 
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundColor: 'white',
                         }}>
                             <Box sx={{
                                  position: 'absolute', top: 0, left: '50%', // Set left to 50% to start from center
