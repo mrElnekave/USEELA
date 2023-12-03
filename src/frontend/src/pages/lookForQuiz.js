@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Button, Box, Container, Card, CardContent, Typography, TextField, CardActionArea } from '@mui/material';
 
 const LookForQuiz = () => {
 
@@ -32,16 +33,20 @@ const LookForQuiz = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const [searchResults, setSearchResults] = useState([]);
-  const [games, setGames] = useState([{name:"boo", _id:1}]); // [game1, game2, ...]
+  const [games, setGames] = useState([[{name:"boo", _id:1}]]); // [game1, game2, ...]
 
   useEffect(() => {
     const fetchGames = async () => {
+        console.log("fetching games");
         const gameNames = await fetch('/api/game_info/getGameNames');
         if (gameNames.ok) {
             const data = [];
+            console.log("pre");
+            console.log(gameNames);
             data.push(
                 await gameNames.json()
             );
+            console.log("post");
             setGames(data);
             console.log(data);
         } else {
@@ -51,8 +56,7 @@ const LookForQuiz = () => {
     fetchGames();
   }, []); // empty array means only run once
 
-
-
+  
   const handleSearch = () => {
     console.log(`Searching for ${searchTerm}`);
     console.log(games[0]);
@@ -61,44 +65,63 @@ const LookForQuiz = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <input 
-        type="text" 
-        placeholder="Search for a quiz" 
+    <Container sx={{
+      display: 'inline',
+    }}>
+    <button onClick={() => { window.location.href = '/lobby'; }}>U See LA</button>
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    }}>
+      <Box sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      marginBottom: 2,
+    }}>
+      <TextField 
+        label="Search for a quiz" 
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        style={styles.input}
+        variant="outlined"
       />
-      <button onClick={handleSearch} style={styles.button}>Search</button>
-      <div>
+      <Button variant="contained" onClick={handleSearch}sx={{
+        mt: 1,
+        ml: 1,
+      }}>Search</Button>
+      </Box>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+      }}>
         {searchResults.map((game) => { // link to the quiz page with that id and the name
+        console.log(game);
           return (
-            <div>
-              <a href={`/QuizDisplay/${game.id}`}>{game.name}</a> <br/>
-            </div>
+            <Card key={game.id} sx={{
+              width: 300,
+              height: 200,
+              margin: 1,
+              bgcolor: '#DAEBFE',
+            }}>
+              <CardActionArea onClick={() => { window.location.href = `/QuizDisplay/${game.id}`;}} sx={{
+                width: 300,
+                height: 200,
+              }}>
+              <CardContent>
+              <Typography gutterBottom variant='h6'>{game.name}</Typography>
+              <Typography gutterBottom variant='body1'>{game.description}</Typography>
+              </CardContent>
+              </CardActionArea>
+            </Card>
           );
         })}
-      </div>
-    </div>
+      </Box>
+      
+    </Box>
+    </Container>
   );
 };
 
-const styles = {
-  container: {
-    textAlign: 'center',
-    padding: '20px',
-  },
-  input: {
-    padding: '10px',
-    marginRight: '5px',
-  },
-  button: {
-    padding: '10px 20px',
-    backgroundColor: '#2774AE',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-  }
-};
 
 export default LookForQuiz;
