@@ -63,6 +63,10 @@ const login_user = async (req, res) => {
 const sign_up_user = async (req, res) => {
     const {email, password} = req.body;
     try {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(email)){
+			res.status(400).json({error: error.message});
+		}
         const check = await User.findOne({email:email});
         if (!check){
             new_user = await User.create({email, password});
