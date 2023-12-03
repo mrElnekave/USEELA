@@ -50,7 +50,7 @@ export default function Home() {
             Go To Lobby
           </Button>
           <Button onClick={() => logout()}>
-            hi
+            logout
         </Button>
         </Box>
 
