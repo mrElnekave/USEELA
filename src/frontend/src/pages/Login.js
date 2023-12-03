@@ -21,13 +21,6 @@ function Login() {
 			else {
 				alert("Authentication Failed!");
 			}
-			/*if (response.data === "exist"){
-				localStorage.setItem('userobj', JSON.stringify({email, password}));
-				navigate('/home');
-			}
-			else if (response.data === "notexist"){
-				alert("Authentication Failed!")
-			}*/
 		}
 		catch (error){
 			console.log(error);

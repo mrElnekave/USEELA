@@ -20,10 +20,10 @@ const userSchema = new Schema({
 		type: Array,
 		default: [],
 	},
-	authToken: {
+/*	authToken: {
 		type: String,
 		default: null,
-	},
+	},*/
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
