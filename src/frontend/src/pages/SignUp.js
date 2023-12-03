@@ -17,11 +17,14 @@ export default function SignUp() {
     async function submit(e) {
         e.preventDefault(); 
 		try {
-            const response = await axios.post("/api/user_info/signup/", {email, password})
-            if (response){
-                localStorage.setItem('userobj', JSON.stringify({response}));   
-                navigate('/home');
-            }
+			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			if (emailRegex.test(email)){
+            	const response = await axios.post("/api/user_info/signup/", {email, password})
+            	if (response){
+                	localStorage.setItem('userobj', JSON.stringify({response}));   
+                	navigate('/home');
+            	}
+			}
         }
         catch(error){
             alert("Failed to Create User");
