@@ -11,6 +11,7 @@ install:
 	npm install
 
 start_frontend: start_backend
+	node ./change_index.js
 	./front.sh
 
 start_backend: kill_node
@@ -19,4 +20,3 @@ start_backend: kill_node
 
 clean:
 	rm -f package-lock.json
-	rm -f 
