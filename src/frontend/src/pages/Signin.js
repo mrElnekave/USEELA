@@ -1,31 +1,42 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Box, Container, Typography, TextField} from '@mui/material';
-import axios from "axios";                    
+import axios from "axios";
 
-export default function SignUp() {
-    const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+function Signin() {
+    // Check if cookies are enabled, auto go to home
+    // Display login, have option to sign up
+    const navigate = useNavigate()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
     async function submit(e) {
-        e.preventDefault(); 
-		try {
-            const response = await axios.post("/api/user_info/signup/", {email, password})
-			//console.log("Response: ", response.data);
+        e.preventDefault();
+        try {
+            const response = await axios.post('/api/user_info/login', {email, password});
+            console.log(response);
             if (response){
-                localStorage.setItem('userobj', JSON.stringify({response}));   
+                localStorage.setItem('userobj', JSON.stringify({response}));
                 navigate('/home');
             }
+            else {
+                alert("Authentication Failed!");
+            }
+            /*if (response.data === "exist"){
+                localStorage.setItem('userobj', JSON.stringify({email, password}));
+                navigate('/home');
+            }
+            else if (response.data === "notexist"){
+                alert("Authentication Failed!")
+            }*/
         }
-        catch(error){
-            alert("Failed to Create User");
+        catch (error){
             console.log(error);
         }
     }
 
     return (
-        <Container clssName='Sign Up' sx={{
+        <Container clssName='login' sx={{
 			display: 'inline',
 		}}>
 		<Typography variant='h5' sx={{
@@ -37,7 +48,7 @@ export default function SignUp() {
 			flexDirection: 'column',
 			alignItems: 'center',
 		}}>
-			<Typography variant='h6' sx={{paddingTop: 5,}} gutterBottom>Sign Up</Typography>
+			<Typography variant='h6' sx={{paddingTop: 5,}} gutterBottom>Sign in</Typography>
 			<form action="POST">
 				<Box sx={{
 					display: 'flex',
@@ -63,8 +74,9 @@ export default function SignUp() {
 				<Button fullWidth variant='contained' type="submit" onClick={submit}>Submit</Button>
 				</Box>
 			</form>
-			<Link to="/signin">Already have an account? Sign in</Link>
+			<Link to="/signup">Already have an account? Sign in</Link>
 		</Box>
 		</Container>
     );
 }
+export default Signin;
