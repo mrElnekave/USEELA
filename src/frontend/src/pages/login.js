@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Button, Box, Container, Typography, TextField} from '@mui/material';
 import axios from "axios";
 
-function Signin() {
+function Login() {
     // Check if cookies are enabled, auto go to home
     // Display login, have option to sign up
     const navigate = useNavigate()
@@ -79,4 +79,4 @@ function Signin() {
 		</Container>
     );
 }
-export default Signin;
+export default Login;

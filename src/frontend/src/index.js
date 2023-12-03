@@ -13,7 +13,7 @@ import ImageUpload from './pages/ImageUpload';
 import QuizTest from './pages/QuizTest';
 import QuizDisplay from './pages/QuizDisplay';
 import SignUp from './pages/SignUp';
-import Signin from './pages/Signin';
+import Login from './pages/login';
 
 import {
   createBrowserRouter,
@@ -27,8 +27,8 @@ const router = createBrowserRouter([
     element: <App/>,
   },
   {
-    path: "/signin", 
-    element: <Signin/>
+    path: "/login", 
+    element: <Login/>
   },
   {
     path: "/signup", 
