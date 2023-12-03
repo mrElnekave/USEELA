@@ -116,17 +116,32 @@ export default function GamePage() {
 
     useEffect (()=>{
         if (gameEnded) {
-            const userId = localStorage.getItem('userId');
+            // const userId = localStorage.getItem('userId');
+            // fetch(`/api/user_info/${userId}`, {
+            //     method: 'PATCH',
+            //     headers: {'Content-Type': 'application/json'},
+            //     body: JSON.stringify({score: score})
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     console.log('Success: ', data);
+            //     setGameEnded(false);
+            // })
+            // .catch(error => {console.error('Error: ', error);});
+
+            const userObj = JSON.parse(localStorage.getItem('userobj'));
+            const userId = userObj.response.data._id;
+            const userScore = userObj.response.data.score + score;
+            userObj.response.data.score = userScore;
+            localStorage.setItem('userobj', JSON.stringify(userObj));
+            console.log(userObj);
             fetch(`/api/user_info/${userId}`, {
                 method: 'PATCH',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({score: score})
+                body: JSON.stringify({score: userScore})
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success: ', data);
-                setGameEnded(false);
-            })
+            .then(response=>response.json())
+            .then(data=> {console.log("Success: " + data); setGameEnded(false);})
             .catch(error => {console.error('Error: ', error);});
         }
     }, [gameEnded, score]);

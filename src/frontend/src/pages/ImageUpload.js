@@ -39,6 +39,22 @@ function ImageUpload() {
         if (data.images) {
             setUploadedImages(data.images);
         }
+
+        const userObj = JSON.parse(localStorage.getItem('userobj'));
+            const userId = userObj.response.data._id;
+            const userQuiz = userObj.response.data.quizzes;
+            userQuiz.push(quizName);
+            userObj.response.data.quizzes = userQuiz;
+            localStorage.setItem('userobj', JSON.stringify(userObj));
+            console.log(userObj);
+            fetch(`/api/user_info/${userId}`, {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({quizzes: userQuiz})
+            })
+            .then(response=>response.json())
+            .then(data=> {console.log("Success: " + data);})
+            .catch(error => {console.error('Error: ', error);});
         // console.log("File uploaded successfully");
         reset();
     } catch (error) {

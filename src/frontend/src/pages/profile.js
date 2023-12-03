@@ -47,8 +47,8 @@ useEffect(()=>{
       }}><img src={image} alt='profile picture' style=
       {{ maxWidth: '200px', marginBottom: '15px', WebkitClipPath: 'circle(75px at 50% 50%)', clipPath: 'circle(75px at 50% 50%)', }} /></Box>
       <Typography variant='h4' gutterBottom sx={{fontWeight: 'bold',}}>{userData.email.split("@")[0]}</Typography>
-      <Typography variant='h6' gutterBottom>Rank: {userData.rank}</Typography>
-      <Typography variant='body1' sx={{mb:5,}}>Contributed Quizzes: {userData.quizzes}</Typography>
+      <Typography variant='h6' gutterBottom>Score: {userData.score}</Typography>
+      <Typography variant='body1' sx={{mb:5,}}>Contributed Quizzes: {userData.quizzes.join(', ')}</Typography>
     </Card>
       )}
     </Box>
