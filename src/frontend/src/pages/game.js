@@ -73,8 +73,8 @@ export default function GamePage() {
     const [ddistance, setDistance] = useState(0);
     const [sendScore, setSendScore] = useState(false);
 
-    const gameId = (useParams().gameId);
-
+    const gameId = useParams().gameId;
+    const [gameEnded, setGameEnded] = useState(false);
     useEffect(()=>{
         if (gameId) { 
             console.log("gameId: " + gameId);
@@ -85,6 +85,12 @@ export default function GamePage() {
             fetchRandomGame();
         }
     }, []);
+
+    useEffect(()=>{
+        if (gameOver) {
+            setGameEnded(true);
+        }
+    }, [gameOver]);
 
     useEffect(()=>{
         let timer;
@@ -108,32 +114,68 @@ export default function GamePage() {
         }
     },[countdown, showGo, gameData]);
 
+    useEffect (()=>{
+        if (gameEnded) {
+            // const userId = localStorage.getItem('userId');
+            // fetch(`/api/user_info/${userId}`, {
+            //     method: 'PATCH',
+            //     headers: {'Content-Type': 'application/json'},
+            //     body: JSON.stringify({score: score})
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     console.log('Success: ', data);
+            //     setGameEnded(false);
+            // })
+            // .catch(error => {console.error('Error: ', error);});
+
+            const userObj = JSON.parse(localStorage.getItem('userobj'));
+            const userId = userObj.response.data._id;
+            const userScore = userObj.response.data.score + score;
+            userObj.response.data.score = userScore;
+            localStorage.setItem('userobj', JSON.stringify(userObj));
+            console.log(userObj);
+            fetch(`/api/user_info/${userId}`, {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({score: userScore})
+            })
+            .then(response=>response.json())
+            .then(data=> {console.log("Success: " + data); setGameEnded(false);})
+            .catch(error => {console.error('Error: ', error);});
+        }
+    }, [gameEnded, score]);
+
     useEffect(()=>{
-        const userId = "6566909e5b3dd9dbb06f7795"; //localStorage.getItem('userId');
-        console.log("send score to user " + userId);
-        fetch(`/api/user_info/${userId}`, {
-            method: 'PUT',
-            headers:{'Content-Type': 'application/json',},
-            body: JSON.stringify({score: score})
-        })
-        .then(response => response.json())
-        .then(data=>{console.log('Success: ', data);})
-        .catch((error)=>{console.error('Error: ', error);});
-    }, [sendScore]);
+        if (currentRound < rounds && gameImages[currentRound]){
+            setBackgroundImageUrl(gameImages[currentRound]);
+        }        
+    }, [currentRound, gameImages, rounds]);
 
     const handleStartGame = () => {
-        console.log("gameData: " + gameData);
-        console.log("gameData: " + gameData.images);
-        const Image = gameData.images.map(image => image.url);
-        setGameImages(Image);
-        console.log("img", Image);
-
+        if (!gameData || !gameData.images){
+            console.log("No game data");
+            return;
+        }
+        const ImageUrls = gameData.images.map(image => image.url);
+        preloadImages(ImageUrls);
+        setGameImages(ImageUrls);
         setGameAnswers(gameData.gpsData.map(gps=>({lat: gps.latitude || 34.068920, lon: gps.longitude || -118.445183})));
-
-        setRounds(Image.length);
-
+        setRounds(ImageUrls.length);
         setResetTimer(prev => !prev);
+        if (ImageUrls.length > 0){
+            setBackgroundImageUrl(ImageUrls[0]);
+        }
     };
+
+    function preloadImages(urls){
+        urls.forEach(url=>{
+            const img = new Image();
+            img.src = url;
+            img.style.display = 'none';
+            document.body.appendChild(img);
+        });
+    }
 
 
     const handleGuess = (latLng) => {
@@ -209,7 +251,10 @@ export default function GamePage() {
                             width: '100%', height: '100vh', // full viewport height
 
                             backgroundImage: `url(${backgroundImageUrl})`, // TODO: get portrait images to work
-                            backgroundSize: 'cover', // cover the entire viewport
+                            backgroundSize: 'contain', 
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundColor: 'white',
                         }}>
                             <Box sx={{
                                  position: 'absolute', top: 0, left: '50%', // Set left to 50% to start from center

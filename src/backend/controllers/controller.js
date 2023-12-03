@@ -12,22 +12,22 @@ const Lookup = require('../models/Lookup');
 // --- image processing
 const sharp = require('sharp');
 const heicConvert = require('heic-convert');
+
 const path = require('path');
 // image processing ---
 
 
 // Function to get an image
 const getImage = async (req, res) => {
-    console.log("in getImage");
+    // console.log("in getImage");
     try {
         const imageId = req.params.id;
         const image = await Image.findById(imageId);
 
         if (!image) {
-            console.log("image not found");
+            // console.log("image not found");
             return res.status(404).send('Image not found');
         }
-        console.log(image.imagebin);
         res.set('Content-Type', 'image/jpeg');
         res.send(image.imagebin);
     } catch (error) {
@@ -35,50 +35,51 @@ const getImage = async (req, res) => {
     }
 };
 
-
 async function postImage(file) {
     try {
         const ext = path.extname(file.originalname).toLowerCase();
         let buffer;
+
         if (ext === '.heic') {
-            // heic-convert
-            try {
-                buffer = await heicConvert({
-                    buffer: file.buffer,
-                    format: 'JPEG',
-                });
-            } catch (error) {
-                console.error('Error converting HEIC to JPEG:', error);
-            }
+            // convert heic to jpeg
+            let jpegBuffer = await heicConvert({
+                buffer: file.buffer,
+                format: 'JPEG',
+            });
+
+            // compress, keep ratio the same
+            buffer = await sharp(jpegBuffer)
+                .resize({ width: 800 }) // only set width, height will adjust automatically
+                .jpeg({ quality: 80 }) // 75% quality
+                .toBuffer();
         } else {
-            // sharp for others
-            try {
-                buffer = await sharp(file.buffer)
-                    .jpeg()
-                    .toBuffer();
-            } catch (error) {
-                console.error('Error converting image to JPEG:', error);
-            }
+            // compress, keep ratio the same
+            buffer = await sharp(jpegBuffer)
+                .resize({ width: 800 }) // only set width, height will adjust automatically
+                .jpeg({ quality: 80 }) // 75% quality
+                .toBuffer();
         }
+
         const image = new Image({
             name: file.originalname,
             imagebin: buffer,
         });
-        await image.save();
 
-        return { id: image._id};
+        await image.save();
+        return { id: image._id };
     } catch (error) {
         console.error('Error in postImage:', error);
         throw error; 
     }
 }
 
+
 // Get all possible games
 
 const getGames = async (req, res) => {
     try {
         const games = await Quiz.find().sort({ createdAt: -1 }); // descending order
-        console.log(games)
+        // console.log(games)
         res.status(200).json(games);
     } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });
@@ -142,10 +143,20 @@ const getGame = async (req, res) => {
 function extractGPSData(exifData) {
     if (!exifData) return null;
 
-    const latitude = exifData.GPSLatitude ? exifData.GPSLatitude.description : null;
-    const longitude = exifData.GPSLongitude ? exifData.GPSLongitude.description : null;
+    let latitude = exifData.GPSLatitude ? exifData.GPSLatitude.description : null;
+    let longitude = exifData.GPSLongitude ? exifData.GPSLongitude.description : null;
     const altitude = exifData.GPSAltitude ? exifData.GPSAltitude.description : null;
 
+    // console.log(exifData.GPSLatitudeRef.description)
+    // console.log(exifData.GPSLongitudeRef.description)
+
+    if (exifData.GPSLatitudeRef && exifData.GPSLatitudeRef.description.includes('South')) {
+        latitude = -latitude;
+    }
+
+    if (exifData.GPSLongitudeRef && exifData.GPSLongitudeRef.description.includes('West')) {
+        longitude = -longitude;
+    }
     return { latitude, longitude, altitude };
 }
 
@@ -164,15 +175,22 @@ const createGame = async (req, res) => {
                 console.error('Error extracting EXIF data:', error);
             }
             const GpsData = extractGPSData(exifData);
+            // check if all contains valid GPSdata
+            if (!GpsData || !GpsData.latitude || !GpsData.longitude) {
+                return res.status(400).json({ error: "One or more images lack GPS data" });
+             }
+            
             actual_locations.push(GpsData);
+         
             const imageData = await postImage(file);
             imageIds.push(imageData.id);
+         
         }
-    
-
+   
         const lookup = new Lookup({ imageIds });
+   
         await lookup.save();
-
+   
         const newQuiz = new Quiz({
             name,
             description,
@@ -185,7 +203,7 @@ const createGame = async (req, res) => {
             const imageUrl = `/api/images/${id}`; // URL for local environment
             return { id, url: imageUrl };
         });
-
+        // res.status(200).json({ message: "Quiz created successfully", images: imagesInfo});
         res.status(200).json({ message: "Quiz created successfully", quiz: newQuiz, images: imagesInfo });
     } catch (error) {
         console.error("Error creating quiz:", error);

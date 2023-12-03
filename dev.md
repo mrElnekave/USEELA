@@ -36,6 +36,7 @@ npm install rsuite
 npm install @react-google-maps/api
 npm install @mui/material
 npm install @emotion/styled
+npm install axios
 ```
 
 
