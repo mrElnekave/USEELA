@@ -37,20 +37,16 @@ const get_user = async (req, res) => {
 
 //logs in a single user
 const login_user = async (req, res) => {
-    //console.log("In login user function")
     const {email, password} = req.body;
     try {
         const check = await User.findOne({email:email, password:password});
-        //console.log({check});
         if (check){
             console.log("User Authenticated");
             res.status(200).json(check);
-            //return res.status(200).json("exist");
         }
         else {
             console.log("User Not Authenticated");
             res.status(400).json(check);
-            //return res.status(400).json("notexist");
         }
     }
     catch(error) {

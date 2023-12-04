@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Box, Container, Typography, TextField} from '@mui/material';
 import axios from "axios";                    
@@ -8,15 +8,24 @@ export default function SignUp() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    useEffect(() => {
+        const userToken = localStorage.getItem('userobj');
+        if (userToken){
+            navigate('/home');
+        }
+    }, [navigate]);
+
     async function submit(e) {
         e.preventDefault(); 
-		try {
-            const response = await axios.post("/api/user_info/signup/", {email, password})
-			//console.log("Response: ", response.data);
-            if (response){
-                localStorage.setItem('userobj', JSON.stringify({response}));   
-                navigate('/home');
-            }
+		    try {
+			  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			  if (emailRegex.test(email)){
+            	const response = await axios.post("/api/user_info/signup/", {email, password})
+            	if (response){
+                	localStorage.setItem('userobj', JSON.stringify({response}));   
+                	navigate('/home');
+            	}
+			  }
         }
         catch(error){
             alert("Failed to Create User");

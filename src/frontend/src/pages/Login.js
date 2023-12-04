@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Box, Container, Typography, TextField} from '@mui/material';
 import axios from "axios";
 
-function Login() {
-    // Check if cookies are enabled, auto go to home
-    // Display login, have option to sign up
-    const navigate = useNavigate()
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+export default function Login() {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    
+    useEffect(() => {
+		    const userToken = localStorage.getItem('userobj');
+        if (userToken){
+            navigate('/home');
+        }
+	  }, [navigate]);
 
     async function submit(e) {
         e.preventDefault();
@@ -73,4 +78,3 @@ function Login() {
         </Container>
     );
 }
-export default Login;
