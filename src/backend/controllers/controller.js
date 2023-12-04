@@ -41,24 +41,22 @@ async function postImage(file) {
         let buffer;
 
         if (ext === '.heic') {
-            // convert heic to jpeg
             let jpegBuffer = await heicConvert({
                 buffer: file.buffer,
                 format: 'JPEG',
             });
-
-            // compress, keep ratio the same
+        
             buffer = await sharp(jpegBuffer)
-                .resize({ width: 800 }) // only set width, height will adjust automatically
-                .jpeg({ quality: 80 }) // 75% quality
+                .resize({ width: 800 })
+                .jpeg({ quality: 80 })
                 .toBuffer();
         } else {
-            // compress, keep ratio the same
-            buffer = await sharp(jpegBuffer)
-                .resize({ width: 800 }) // only set width, height will adjust automatically
-                .jpeg({ quality: 80 }) // 75% quality
+            buffer = await sharp(file.buffer)
+                .resize({ width: 800 })
+                .jpeg({ quality: 80 }) 
                 .toBuffer();
         }
+        
 
         const image = new Image({
             name: file.originalname,

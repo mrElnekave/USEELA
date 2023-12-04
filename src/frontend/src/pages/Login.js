@@ -1,55 +1,80 @@
-import React, { useState, useEffect } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import axios from "axios"
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { Button, Box, Container, Typography, TextField} from '@mui/material';
+import axios from "axios";
 
-function Login() {
-	const navigate = useNavigate()
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
-	
+export default function Login() {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    
     useEffect(() => {
-		const userToken = localStorage.getItem('userobj');
+		    const userToken = localStorage.getItem('userobj');
         if (userToken){
             navigate('/home');
         }
-	}, [navigate]);
+	  }, [navigate]);
 
-	async function submit(e) {
-		e.preventDefault();
-		try {
-			const response = await axios.post('/api/user_info/login', {email, password});
-			console.log(response);
-			if (response){
-				localStorage.setItem('userobj', JSON.stringify({response}));
-				navigate('/home');
-			}
-			else {
-				alert("Authentication Failed!");
-			}
-		}
-		catch (error){
-			console.log(error);
-		}
-	} 
-	
-	return (
-		<div className="login">
-			<h1>UCLA GEOGUESSER</h1>
-			<h2>Log In</h2>
-			<form action="POST">
-				<input type="email" onChange={(e) => { setEmail(e.target.value) }} placeholder="Email" name="" id="" />
-				<br/>
-				<br/>
-				<input type="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Password" name="" id="" />
-				<br/>
-				<br/>
-				<input type="submit" onClick={submit} />
-			</form>
-			<br />
-			<p>OR</p>
-			<br />
-			<Link to="/SignUp">Sign Up Here</Link>
-		</div>
-	);
+    async function submit(e) {
+        e.preventDefault();
+        try {
+            const response = await axios.post('/api/user_info/login', {email, password});
+            console.log(response);
+            if (response){
+                localStorage.setItem('userobj', JSON.stringify({response}));
+                navigate('/home');
+            }
+            else {
+                alert("Authentication Failed!");
+            }
+            
+        }
+        catch (error){
+            console.log(error);
+        }
+    }
+
+    return (
+        <Container clssName='login' sx={{
+            display: 'inline',
+        }}>
+        <Typography variant='h5' sx={{
+            fontFamily: 'Montserrat',
+            ml: 1,
+        }}>UCLA GEOGUESSR</Typography>
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+        }}>
+            <Typography variant='h6' sx={{paddingTop: 5,}} gutterBottom>Sign in</Typography>
+            <form action="POST">
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    width: 400,
+                }}>
+                <TextField type="email" onChange={(e) => { setEmail(e.target.value) }} 
+                label="Email" 
+                required 
+                fullWidth
+                sx={{
+                    mt: 1,
+                }}/>
+                <TextField type="password" onChange={(e) => { setPassword(e.target.value) }} 
+                label="Password"
+                required 
+                fullWidth
+                sx={{
+                    mt: 3,
+                    mb: 5,
+                }}/>
+                <Button fullWidth variant='contained' type="submit" onClick={submit}>Submit</Button>
+                </Box>
+            </form>
+            <Link to="/signup">Don't have an account? Sign up</Link>
+        </Box>
+        </Container>
+    );
 }
-export default Login;
