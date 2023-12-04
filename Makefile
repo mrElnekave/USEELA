@@ -1,16 +1,21 @@
-.PHONY: all clean
+.PHONY: all clean check_env kill_node install start_frontend start_backend
 
-all: package-lock.json
+all: package-lock.json check_env start_frontend
 
-package-lock.json: install start_frontend
+package-lock.json: install
+
+check_env:
+	./check_env.sh
 
 kill_node:
 	-killall node
 
 install:
 	npm install
+	git update-index --assume-unchanged package-lock.json
 
 start_frontend: start_backend
+	git update-index --assume-unchanged src/frontend/public/index.html
 	node ./change_index.js
 	./front.sh
 
