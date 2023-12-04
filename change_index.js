@@ -12,6 +12,11 @@ fs.readFile(filePath, 'utf8', (err, data) => {
 
   // Replace the placeholder with your actual API key
   const apiKey = process.env.GOOGLE_API_KEY;
+  if (!apiKey) {
+    console.error('No API key found in environment variables. ADD THE .env FILE!');
+    return;
+  }
+
   const updatedData = data.replace('key= ', `key=${apiKey}`);
 
   // Write the updated HTML back to the file
