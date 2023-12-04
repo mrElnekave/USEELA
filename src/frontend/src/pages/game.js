@@ -6,7 +6,7 @@ import { Link, useParams } from 'react-router-dom'
 import '../index.css';
 import {Box, Fab, Typography} from '@mui/material';
 import Timer from '../components/timer';
-import Navbar from '../components/Navbar'
+
 
 function getDistanceFromLatLonInM(lat1, lon1, lat2, lon2) {
     var R = 6371;
@@ -25,7 +25,6 @@ function deg2rad(deg){
 
 export default function GamePage() {
     const fetchGame = async () => {
-        console.log("fetching game");
         // Call to getGame API
         try{
             const response = await fetch(`/api/game_info/${gameId}`);
@@ -48,13 +47,10 @@ export default function GamePage() {
         // suppose randomGame API's URL is '/api/game_info/random'
         const response = await fetch('/api/game_info/random');
         const data = await response.json();
-        console.log("random")
-     //   console.log(data.)
         setGameData(data);
     };
 
     const [rounds, setRounds] = useState(0); // default number of rounds is 5
-    //const [test, setTest] = useState(2);
     const [currentRound, setCurrentRound] = useState(1);
     const [latGuessed, setLatGuessed] = useState(34.068920);
     const [lonGuessed, setLonGuessed] = useState(-118.445183);
@@ -99,7 +95,6 @@ export default function GamePage() {
         }else if (countdown === 0 && !showGo){
             setShowGo(true);
             timer = setTimeout(() => {
-                //handleStartGame();
                 setShowGo(false);
             }, 1000);
         }
@@ -116,19 +111,6 @@ export default function GamePage() {
 
     useEffect (()=>{
         if (gameEnded) {
-            // const userId = localStorage.getItem('userId');
-            // fetch(`/api/user_info/${userId}`, {
-            //     method: 'PATCH',
-            //     headers: {'Content-Type': 'application/json'},
-            //     body: JSON.stringify({score: score})
-            // })
-            // .then(response => response.json())
-            // .then(data => {
-            //     console.log('Success: ', data);
-            //     setGameEnded(false);
-            // })
-            // .catch(error => {console.error('Error: ', error);});
-
             const userObj = JSON.parse(localStorage.getItem('userobj'));
             const userId = userObj.response.data._id;
             const userScore = userObj.response.data.score + score;
@@ -226,7 +208,6 @@ export default function GamePage() {
     }
 
     useEffect(() => {
-        // 当 currentRound 更新时，更新背景图片 URL
         if(gameImages[currentRound - 1]) {
           setBackgroundImageUrl(gameImages[currentRound - 1]);
         }
@@ -250,7 +231,7 @@ export default function GamePage() {
                             position: 'relative', // for absolute positioning of child elements
                             width: '100%', height: '100vh', // full viewport height
 
-                            backgroundImage: `url(${backgroundImageUrl})`, // TODO: get portrait images to work
+                            backgroundImage: `url(${backgroundImageUrl})`, 
                             backgroundSize: 'contain', 
                             backgroundPosition: 'center',
                             backgroundRepeat: 'no-repeat',

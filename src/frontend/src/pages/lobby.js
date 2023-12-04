@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, AppBar, Toolbar, IconButton, Avatar, Stack, Typography } from '@mui/material';
+import { Box, Button, AppBar, Toolbar, Stack, Typography } from '@mui/material';
 //import AddIcon from '@mui/icons-material/Add'; // Add icon for the 'Create a quiz' button
 import { CssBaseline } from '@mui/material';
 import BruinImage from '../pictures/bruin.png';
@@ -29,11 +29,6 @@ export default function Lobby() {
           </Button>
         </Toolbar>
       </AppBar>
-      
-      {/* Lobby title */}
-      {/* <Typography variant="h3" sx={{ fontFamily: 'Montserrat', color: 'white', textAlign: 'center', mt: 2 }}>
-        Lobby
-      </Typography> */}
 
       <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)', mx: 'auto', maxWidth: 'lg', p: 3 }}>
         <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={4} sx={{ color: 'white', gap: 2 }}>

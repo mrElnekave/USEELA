@@ -18,7 +18,6 @@ import Login from './pages/Login';
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
 } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -58,10 +57,6 @@ const router = createBrowserRouter([
     path: "/game/:gameId",
     element: <GamePage/>,
   },
-  {/*
-    path: "/lobby",
-    element: <Lobby/>,
-*/},
   {
     path: "/lookForQuiz",
     element: <LookForQuiz/>,
