@@ -74,7 +74,7 @@ function Login() {
 				<Button fullWidth variant='contained' type="submit" onClick={submit}>Submit</Button>
 				</Box>
 			</form>
-			<Link to="/signup">Already have an account? Sign in</Link>
+			<Link to="/signup">Don't have an account? Sign up</Link>
 		</Box>
 		</Container>
     );
