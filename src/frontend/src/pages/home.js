@@ -3,6 +3,10 @@ import { Container, Box, Typography, Button, CssBaseline } from '@mui/material';
 import topbanners from '../../src/pictures/topbanner2.avif';
 
 export default function Home() {
+  const userObj = JSON.parse(localStorage.getItem('userobj'));
+  if (!userObj) {
+    window.location.href = '/';
+  }
   function logout () {
     localStorage.clear();
     window.location.href = '/';

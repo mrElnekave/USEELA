@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Container, Typography, Button} from '@mui/material';
 import { useParams } from 'react-router-dom';
 
-function QuizTest() {
+function QuizDisplay() {
     const [gameData, setGameData] = useState(null);
 
     const gameId = (useParams().quizId);
@@ -52,4 +52,4 @@ function QuizTest() {
     );
 }
 
-export default QuizTest;
+export default QuizDisplay;

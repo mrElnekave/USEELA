@@ -6,7 +6,11 @@ import BruinImage from '../pictures/bruin.png';
 
 export default function Lobby() {
   const userObj = JSON.parse(localStorage.getItem('userobj'));
-  console.log(userObj);
+  if (!userObj) {
+    window.location.href = '/';
+  }
+  
+
   const username = userObj.response.data.email.split('@');
 
   const userId = userObj.response.data._id;
