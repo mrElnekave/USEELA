@@ -67,9 +67,9 @@ Go to the [Dev page](./dev.md) to learn how to contribute to this project.
 * leaderboard.js
   * Fetches all users sorted by score
 * Login.js
-  * //TODO
+  * Login uses a post request to check the db for matching email and password, authenticates if so and initializes the localStorage user object.
 * Signup.js
-  * //TODO
+  * Signup uses a post request to create a new user if the new email is not already in the db.
 * lookForQuiz.js
   * will fetch all quizzes and filter them based on the user's search (regex)
 * profile.js
