@@ -39,11 +39,12 @@ function ImageUpload() {
         if (data.images) {
             setUploadedImages(data.images);
         }
+        
 
         const userObj = JSON.parse(localStorage.getItem('userobj'));
             const userId = userObj.response.data._id;
             const userQuiz = userObj.response.data.quizzes;
-            userQuiz.push(quizName);
+            userQuiz.push({name: quizName, id: data.quiz._id});
             userObj.response.data.quizzes = userQuiz;
             localStorage.setItem('userobj', JSON.stringify(userObj));
             console.log(userObj);

@@ -48,7 +48,22 @@ useEffect(()=>{
       {{ maxWidth: '200px', marginBottom: '15px', WebkitClipPath: 'circle(75px at 50% 50%)', clipPath: 'circle(75px at 50% 50%)', }} /></Box>
       <Typography variant='h4' gutterBottom sx={{fontWeight: 'bold',}}>{userData.email.split("@")[0]}</Typography>
       <Typography variant='h6' gutterBottom>Score: {userData.score}</Typography>
-      <Typography variant='body1' sx={{mb:5,}}>Contributed Quizzes: {userData.quizzes.join(', ')}</Typography>
+
+      <Typography variant='body1'>Contributed Quizzes: </Typography>
+      <Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+          width: '100%',
+      }}>
+        {
+          userData.quizzes.map((quiz) => (
+              <button id='quizzes' key={quiz.id} onClick={() => { window.location.href = `/quizDisplay/${quiz.Containerid}`; }}>
+              {quiz.name}
+              </button>
+          ))
+        }
+      </Box>
     </Card>
       )}
     </Box>
