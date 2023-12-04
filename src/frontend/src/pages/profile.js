@@ -58,7 +58,7 @@ useEffect(()=>{
       }}>
         {
           userData.quizzes.map((quiz) => (
-              <button id='quizzes' key={quiz.id} onClick={() => { window.location.href = `/quizDisplay/${quiz.Containerid}`; }}>
+              <button id='quizzes' key={quiz.id} onClick={() => { window.location.href = `/quizDisplay/${quiz.id}`; }}>
               {quiz.name}
               </button>
           ))

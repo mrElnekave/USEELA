@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React from 'react';
 import { Container, Box, Typography, Button, CssBaseline } from '@mui/material';
 import topbanners from '../../src/pictures/topbanner2.avif';
 
@@ -10,7 +10,7 @@ export default function Home() {
   }
   return (
     <>
-      <CssBaseline /> {/* 用于确保跨浏览器的一致性，并设置默认背景色 */}
+      <CssBaseline /> 
       <Container maxWidth={false} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'black', padding: 0 }}> {/* 移除最大宽度限制和内边距 */}
         
         {/* Header Section */}
@@ -42,7 +42,7 @@ export default function Home() {
           sx={{
             display: 'flex',
             justifyContent: 'center',
-            flexGrow: 1, // 让这个 Box 填满所有可用空间
+            flexGrow: 1, 
             padding: '20px 0',
           }}
         >
@@ -65,7 +65,7 @@ export default function Home() {
         </Box>
 
         {/* Footer */}
-        <Box sx={{ backgroundColor: 'black' }}> {/* 用 Box 替代 Paper */}
+        <Box sx={{ backgroundColor: 'black' }}> 
           <Typography variant="body1" align="center" style={{ fontSize: '1.3em', color: 'white' }}>
             Made with 💖 by Neiro Cabrera, Yamm Elnekave, Rakil Kim, Xiaohan Song, Cixuan Zhang
           </Typography>

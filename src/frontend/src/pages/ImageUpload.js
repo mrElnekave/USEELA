@@ -143,6 +143,5 @@ function ImageUpload() {
 
   );
 };
-// img key={index} src={image.url} alt={`Uploaded ${index}`} 
 
 export default ImageUpload;
