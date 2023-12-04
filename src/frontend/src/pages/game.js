@@ -72,6 +72,7 @@ export default function GamePage() {
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [ddistance, setDistance] = useState(0);
     const [sendScore, setSendScore] = useState(false);
+    const [isTimerPaused, setIsTimerPaused] = useState(false);
 
     const gameId = useParams().gameId;
     const [gameEnded, setGameEnded] = useState(false);
@@ -207,12 +208,14 @@ export default function GamePage() {
 
         });
         setIsFullScreen(true);
+        setIsTimerPaused(true);
         setTimeout(()=>{
             setShowAnswer(false);
             setIsFullScreen(false);
             if (currentRound < rounds) {
                 setCurrentRound(currentRound + 1);
                 setResetTimer(prev=>!prev);
+                setIsTimerPaused(false);
             } else {
                 setGameOver(true);
                 setSendScore(prev=>!prev);
@@ -238,7 +241,7 @@ export default function GamePage() {
                 <>
                     {gameImages.length === 0 && (
                         <Box className="countdown-container">
-                            {countdown == 1
+                            {countdown <= 1
                                 ? <Typography variant="h1" className="countdown-text">Go!</Typography>
                                 : <Typography variant="h1" className="countdown-text">{countdown-1}</Typography>
                             }
@@ -266,7 +269,7 @@ export default function GamePage() {
                             }}>
                                 <Typography variant="h5" sx={{ color: 'black' }}>Round {currentRound} of {rounds}</Typography>
                                 <Box sx={{ position: 'relative', mt: 3 }}>
-                                    <Timer onTimeUp={() => handleGuess({ lat: latGuessed, lng: lonGuessed })} resetSignal={resetTimer}/>
+                                    <Timer onTimeUp={() => handleGuess({ lat: latGuessed, lng: lonGuessed })} resetSignal={resetTimer} isPaused={isTimerPaused}/>
                                 </Box>
                             </Box>
 
