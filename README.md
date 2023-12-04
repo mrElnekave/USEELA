@@ -28,16 +28,49 @@ Go to the [Dev page](./dev.md) to learn how to contribute to this project.
 
 ## Architecture
 
+### Backend
+
 * Our backend is on MongoDB, everything runs through the server.js file
 * It routes all the backend requests to api/path/to/backend/feature
 * our routes folder, describes all the patch, post, delete etc requests we have.
   * The controllers implement them
 * Our models are the MongoDB backend models (schema) that are stored on MongoDB
 
+#### Schema design
+
+* Quiz
+  * Quiz info
+  * Lookup table for images
+* Lookup
+  * Holds image IDs for easy lookup
+* Image
+  * Holds image info
+* User
+  * User info
+  * Holds all its quizzes
+  * Also holds its current score
+
+### Frontend
+
 * The frontend is run through the index.js file, it routes everything correctly.
 * The base of our app root is App.js, this will route you to the login page.
 * The login page will bypass itself if you have a cookie.
 * Otherwise you must login or sign up.
-* Once you get to the lobby in some way. You can do any of the following features
-  * Play ...
-  * ....
+
+#### Frontend interaction with backend
+* game.js
+  * Fetches the quiz info from the backend
+  * Sends score back to user (which is in local storage)
+* imageUpload.js (quiz creation)
+  * Uploads the image to the backend
+  * Updates the user's quizzes with the added quiz
+* leaderboard.js
+  * Fetches all users sorted by score
+* Login.js
+  * //TODO
+* Signup.js
+  * //TODO
+* lookForQuiz.js
+  * will fetch all quizzes and filter them based on the user's search (regex)
+* profile.js
+  * fetches the user from the backend
