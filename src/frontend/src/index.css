@@ -48,8 +48,16 @@ button {
   color: black;
   font-family: sans-serif;
   font-size: 20px;
-
 }
+
+#quizzes {
+  display: flex;
+  flex-wrap: wrap;
+  font-family: sans-serif;
+  font-size: 15px;
+  margin-right: 10px;
+}
+
 div {
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
