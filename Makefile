@@ -12,8 +12,10 @@ kill_node:
 
 install:
 	npm install
+	git update-index --assume-unchanged package-lock.json
 
 start_frontend: start_backend
+	git update-index --assume-unchanged src/frontend/public/index.html
 	node ./change_index.js
 	./front.sh
 
