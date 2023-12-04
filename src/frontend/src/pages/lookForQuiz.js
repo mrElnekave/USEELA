@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Button, Box, Container, Card, CardContent, Typography, TextField, CardActionArea } from '@mui/material';
 
 const LookForQuiz = () => {
-
+  const userObj = JSON.parse(localStorage.getItem('userobj'));
+  if (!userObj) {
+    window.location.href = '/';
+  }
   const searchQuizByName = (searchTerm, gameNames) => {
     // clear search result if the search field is empty
     if (searchTerm === "" || searchTerm === null) {

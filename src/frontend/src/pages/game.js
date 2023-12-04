@@ -24,6 +24,10 @@ function deg2rad(deg){
 }
 
 export default function GamePage() {
+    const userObj = JSON.parse(localStorage.getItem('userobj'));
+    if (!userObj) {
+      window.location.href = '/';
+    }
     const fetchGame = async () => {
         // Call to getGame API
         try{

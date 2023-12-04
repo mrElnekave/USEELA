@@ -6,6 +6,10 @@ function createData(username, score) {
   return {username, score}
 }
 const Leaderboard = () => {
+  const userObj = JSON.parse(localStorage.getItem('userobj'));
+  if (!userObj) {
+    window.location.href = '/';
+  }
   const [page, setPage] = useState(0);
   const [rows, setRows] = useState([0, 10]);
   const rowsPerPage = 10;

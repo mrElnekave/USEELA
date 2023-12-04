@@ -3,6 +3,10 @@ import { Box, Container, Button, Typography, TextField, Input, Card, CardActionA
 import { useDropzone } from 'react-dropzone';
 
 function ImageUpload() {
+  const userObj = JSON.parse(localStorage.getItem('userobj'));
+  if (!userObj) {
+    window.location.href = '/';
+  }
   const [files, setFiles] = useState([]);
   const [quizName, setQuizName] = useState('');
   const [quizDescription, setQuizDescription] = useState('');

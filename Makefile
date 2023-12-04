@@ -24,4 +24,5 @@ start_backend: kill_node
 	sleep 1
 
 clean:
-	rm -f package-lock.json
+	git reset package-lock.json
+	git reset src/frontend/public/index.html
