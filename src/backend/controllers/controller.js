@@ -41,24 +41,25 @@ async function postImage(file) {
         let buffer;
 
         if (ext === '.heic') {
-            // convert heic to jpeg
+            // 如果文件是HEIC格式，先将其转换为JPEG格式
             let jpegBuffer = await heicConvert({
                 buffer: file.buffer,
                 format: 'JPEG',
             });
-
-            // compress, keep ratio the same
+        
+            // 然后对JPEG格式的图片进行压缩，保持比例不变
             buffer = await sharp(jpegBuffer)
-                .resize({ width: 800 }) // only set width, height will adjust automatically
-                .jpeg({ quality: 80 }) // 75% quality
+                .resize({ width: 800 }) // 只设置宽度，高度会自动调整
+                .jpeg({ quality: 80 }) // 质量设置为80%
                 .toBuffer();
         } else {
-            // compress, keep ratio the same
-            buffer = await sharp(jpegBuffer)
-                .resize({ width: 800 }) // only set width, height will adjust automatically
-                .jpeg({ quality: 80 }) // 75% quality
+            // 如果文件不是HEIC格式，直接对原始buffer进行压缩和调整大小
+            buffer = await sharp(file.buffer)
+                .resize({ width: 800 }) // 只设置宽度，高度会自动调整
+                .jpeg({ quality: 80 }) // 质量设置为80%
                 .toBuffer();
         }
+        
 
         const image = new Image({
             name: file.originalname,
