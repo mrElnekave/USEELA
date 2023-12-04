@@ -63,7 +63,7 @@ export default function SignUp() {
 				<Button fullWidth variant='contained' type="submit" onClick={submit}>Submit</Button>
 				</Box>
 			</form>
-			<Link to="/signin">Already have an account? Sign in</Link>
+			<Link to="/login">Already have an account? Sign in</Link>
 		</Box>
 		</Container>
     );

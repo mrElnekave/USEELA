@@ -13,7 +13,7 @@ import ImageUpload from './pages/ImageUpload';
 import QuizTest from './pages/QuizTest';
 import QuizDisplay from './pages/QuizDisplay';
 import SignUp from './pages/SignUp';
-import Login from './pages/login';
+import Login from './pages/Login';
 
 import {
   createBrowserRouter,
