@@ -7,6 +7,8 @@ export default function Login() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [emailValue, setEmailValue] = useState('');
+    const [passwordValue, setPasswordValue] = useState('');
     
     useEffect(() => {
 		    const userToken = localStorage.getItem('userobj');
@@ -31,6 +33,8 @@ export default function Login() {
         }
         catch (error){
             console.log(error);
+            setEmailValue('');
+            setPasswordValue('');
         }
     }
 
@@ -55,14 +59,14 @@ export default function Login() {
                     alignItems: 'center',
                     width: 400,
                 }}>
-                <TextField type="email" onChange={(e) => { setEmail(e.target.value) }} 
+                <TextField type="email" value={emailValue} onChange={(e) => { setEmail(e.target.value); setEmailValue(e.target.value) }} 
                 label="Email" 
                 required 
                 fullWidth
                 sx={{
                     mt: 1,
                 }}/>
-                <TextField type="password" onChange={(e) => { setPassword(e.target.value) }} 
+                <TextField type="password" value={passwordValue} onChange={(e) => { setPassword(e.target.value); setPasswordValue(e.target.value) }} 
                 label="Password"
                 required 
                 fullWidth
