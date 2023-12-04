@@ -3,7 +3,11 @@ import { Container, Box, Typography, Button, CssBaseline } from '@mui/material';
 import topbanners from '../../src/pictures/topbanner2.avif';
 
 export default function Home() {
+  function logout () {
+    localStorage.clear();
+    window.location.href = '/';
 
+  }
   return (
     <>
       <CssBaseline /> {/* 用于确保跨浏览器的一致性，并设置默认背景色 */}
@@ -45,6 +49,9 @@ export default function Home() {
           <Button variant="contained" color="primary" onClick={() => { window.location.href = '/lobby'; }}>
             Go To Lobby
           </Button>
+          <Button onClick={() => logout()}>
+            logout
+        </Button>
         </Box>
 
         {/* Main Content */}
