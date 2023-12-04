@@ -12,16 +12,16 @@ kill_node:
 
 install:
 	npm install
-	git update-index --assume-unchanged package-lock.json
+	-git update-index --assume-unchanged package-lock.json
 
 start_frontend: start_backend
-	git update-index --assume-unchanged src/frontend/public/index.html
+	-git update-index --assume-unchanged src/frontend/public/index.html
 	node ./change_index.js
 	./front.sh
 
 start_backend: kill_node
 	nodemon ./src/backend/server.js &
-	sleep 2
+	sleep 1
 
 clean:
 	rm -f package-lock.json
