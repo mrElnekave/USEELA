@@ -13,7 +13,7 @@ Visit the [Dev page](./dev.md) to learn how you can contribute to this exciting 
 2. Run `make all` in your terminal. This command performs the following tasks:
    - Installs all required packages
    - Kills any previous Node processes
-   - Starts the frontend and then the backend
+   - Starts the backend and then the frontend
    - Inserts the API key into the correct file before launching the frontend
 
    Note: If packages are already up to date, the makefile won't reinstall them.
