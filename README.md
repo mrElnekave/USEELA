@@ -1,76 +1,75 @@
-# CS35L-Project: UCLA Geoguesser
+# UCLA Geoguesser
 
-Welcome to the UCLA Geoguesser, a game where given multiple photos of a location on campus you have to guess where it is.
+Welcome to UCLA Geoguesser, an engaging game where you're presented with multiple photos of locations on campus, and it's your task to guess their whereabouts.
 
-## How to contribute
+## How to Contribute
 
-Go to the [Dev page](./dev.md) to learn how to contribute to this project.
+Visit the [Dev page](./dev.md) to learn how you can contribute to this exciting project.
 
+## How to Run
 
+1. Copy the .env file into the root folder to access the necessary keys for our backend and Google Maps API.
+   - If you aren't a member of our project you can try messaging one of the contributors for the .env file or you won't be able to run.
+2. Run `make all` in your terminal. This command performs the following tasks:
+   - Installs all required packages
+   - Kills any previous Node processes
+   - Starts the frontend and then the backend
+   - Inserts the API key into the correct file before launching the frontend
 
-## How to run
+   Note: If packages are already up to date, the makefile won't reinstall them.
 
-* In order to run our app, you must first copy the .env file into the root folder.
-* This will give you all the keys to access our backend and google maps API.
-* Next `make all`
-  * This will do multiple things:
-  * first, install all the packages
-  * kill all previous node processes
-  * start the frontend and then start the backend
-    * before starting the frontend it will put our api key into the correct file, this is how we keep it secret
-  * This is a make file, so if the packages are already up to date, it won't need to install them
-* You will be prompted with a sign in screen if you don't already have a cookie for the game.
-* Sign up if you don't have an account. Sign in if you do. The next time you will go in automatically with cookies.
-* At the lobby, make a game, play a game, search for a game, look at the leaderboard, check your profile!
-  * You can do anything.
-* Cheers, and have fun!!
+3. Upon running, a sign-in screen will prompt you if you don't have a cookie for the game.
+4. Sign up if you're new or sign in if you already have an account. Future visits will automatically sign you in with cookies.
+5. Explore the lobby, make a game, play, search, view the leaderboard, or check your profile. The possibilities are endless!
 
+Enjoy your time with UCLA Geoguesser!
 
 ## Architecture
 
 ### Backend
 
-* Our backend is on MongoDB, everything runs through the server.js file
-* It routes all the backend requests to api/path/to/backend/feature
-* our routes folder, describes all the patch, post, delete etc requests we have.
-  * The controllers implement them
-* Our models are the MongoDB backend models (schema) that are stored on MongoDB
+Our backend relies on MongoDB, with the server.js file handling all operations. Key components include:
 
-#### Schema design
+- **Routes**: Described in the routes folder, these routes direct backend requests to api/path/to/backend/feature.
+- **Controllers**: Implementing various HTTP requests such as PATCH, POST, DELETE, etc.
+- **Models**: Representing MongoDB backend models (schemas) stored on MongoDB.
 
-* Quiz
-  * Quiz info
-  * Lookup table for images
-* Lookup
-  * Holds image IDs for easy lookup
-* Image
-  * Holds image info
-* User
-  * User info
-  * Holds all its quizzes
-  * Also holds its current score
+#### Schema Design
+
+- **Quiz**
+  - Quiz information
+  - Lookup table for images
+- **Lookup**
+  - Holds image IDs for convenient lookup
+- **Image**
+  - Stores image details
+- **User**
+  - User information
+  - Contains all user quizzes
+  - Maintains the user's current score
 
 ### Frontend
 
-* The frontend is run through the index.js file, it routes everything correctly.
-* The base of our app root is App.js, this will route you to the login page.
-* The login page will bypass itself if you have a cookie.
-* Otherwise you must login or sign up.
+The frontend, orchestrated through index.js, ensures smooth routing. Key features include:
 
-#### Frontend interaction with backend
-* game.js
-  * Fetches the quiz info from the backend
-  * Sends score back to user (which is in local storage)
-* imageUpload.js (quiz creation)
-  * Uploads the image to the backend
-  * Updates the user's quizzes with the added quiz
-* leaderboard.js
-  * Fetches all users sorted by score
-* Login.js
-  * Login uses a post request to check the db for matching email and password, authenticates if so and initializes the localStorage user object.
-* Signup.js
-  * Signup uses a post request to create a new user if the new email is not already in the db.
-* lookForQuiz.js
-  * will fetch all quizzes and filter them based on the user's search (regex)
-* profile.js
-  * fetches the user from the backend
+- **App.js**: The root of the app, directing users to the login page.
+- **Login Page**: Bypasses itself with cookies; otherwise, users must log in or sign up.
+
+#### Frontend Interaction with Backend
+
+- **game.js**
+  - Fetches quiz info from the backend
+  - Sends the score back to the user (stored in local storage)
+- **imageUpload.js** (quiz creation)
+  - Uploads images to the backend
+  - Updates the user's quizzes with the added quiz
+- **leaderboard.js**
+  - Fetches all users, sorted by score
+- **Login.js**
+  - Utilizes a POST request to check the database for matching email and password, authenticates if successful, and initializes the localStorage user object.
+- **Signup.js**
+  - Utilizes a POST request to create a new user if the email is not already in the database.
+- **lookForQuiz.js**
+  - Fetches all quizzes and filters them based on the user's search (regex)
+- **profile.js**
+  - Fetches the user from the backend
