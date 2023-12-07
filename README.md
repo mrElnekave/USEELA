@@ -24,6 +24,20 @@ Visit the [Dev page](./dev.md) to learn how you can contribute to this exciting 
 
 Enjoy your time with UCLA Geoguesser!
 
+### Quick notes
+
+**Bug we have noticed:**
+ *   If running the web app from certain places on campus with restricted internet, the dev server (frontend) won't properly launch. Other groups had similar issues.
+ *   Running from anywhere on the hill and some libraries work fine.
+
+**It runs on the following machines:**
+  *  Arch Linux
+  *  Mac
+  *  Ubuntu
+  *  Windows 10
+
+Please bear with the huge dependency list, we went through quite a few frontend iterations.
+
 ## Architecture
 
 ### Backend
