@@ -1,6 +1,23 @@
 # UCLA Geoguesser
-
+![Alt text](images/mainpage.PNG)
 Welcome to UCLA Geoguesser, an engaging game where you're presented with multiple photos of locations on campus, and it's your task to guess their whereabouts.
+
+## Preview
+#### Lobby
+![Alt text](images/lobby.PNG)
+
+#### Playing the game
+![Alt text](images/game.PNG)
+
+#### Leaderboard
+![Alt text](images/leaderboard.PNG)
+
+#### Searching specifc quizzes
+![Alt text](images/searchquiz.PNG)
+
+#### Uploading your own quizzes
+![Alt text](images/quizupload.PNG)
+
 
 ## How to Contribute
 
